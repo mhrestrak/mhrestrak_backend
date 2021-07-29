@@ -1,0 +1,28 @@
+{
+  "name": "mhrestrak_backend",
+  "version": "1.0.0",
+  "description": "Backend for the MH ResTrak Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Joshua Fernandes",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "config": "^3.3.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "fawn": "^2.1.5",
+    "helmet": "^4.6.0",
+    "joi": "^17.4.1",
+    "joi-objectid": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1"
+  },
+  "type": "module"
+}
