@@ -1,4 +1,7 @@
 {
   "jwtPrivateKey": "mhrestrak_jwtPrivateKey",
-  "db": "mhrestrak_db"
+  "db": "mhrestrak_db",
+  "dbServer": "mhrestrak_dbServer",
+  "dbUser": "mhrestrak_dbUser",
+  "dbPassword": "mhrestrak_dbPassword"
 }

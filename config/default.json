@@ -1,4 +1,7 @@
 {
   "jwtPrivateKey": "",
-  "db": ""
+  "dbServer": "metrohope.database.windows.net",
+  "dbUser": "dbadmin",
+  "dbPassword": "MHMdba1!",
+  "db": "mhrestrackdemo"
 }
