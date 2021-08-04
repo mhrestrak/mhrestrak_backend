@@ -2,6 +2,8 @@ const express = require("express");
 const users = require("../routes/users");
 const cors = require("cors");
 const auth = require("../routes/auth");
+const resident = require("../routes/resident");
+const test = require("../routes/test");
 // const error = require("../middleware/error");
 
 module.exports = function (app) {
@@ -9,7 +11,9 @@ module.exports = function (app) {
   app.use(express.json());
   app.use("/api/users", users);
   app.use("/api/auth", auth);
-  //   app.use(cors({ origin: "https://hidden-beyond-42098.herokuapp.com" }));
+  app.use("/api/test", test);
+  app.use("/api/resident", resident);
+  //   app.use(cors({ origin: "https://x.com" }));
   //--------------------Request pipeline Error handeling---------------------
   //   app.use(error);
 };
