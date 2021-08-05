@@ -71,8 +71,8 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+router.use("/basic", basic);
 // router.use("/admission", admission);
-// router.use("/basic", basic);
 // router.use("/contacts", contacts);
 // router.use("/drug", drug);
 // router.use("/education", education);
