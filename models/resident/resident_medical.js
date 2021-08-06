@@ -1,5 +1,39 @@
 const Joi = require("joi");
 
+function model(data) {
+  let array = [
+    { key: "ResID", value: data.ResID, type: "VarChar" },
+    { key: "Illness", value: data.Illness, type: "VarChar" },
+    { key: "Allergy", value: data.Allergy, type: "VarChar" },
+    { key: "DoctorContactID", value: data.DoctorContactID, type: "VarChar" },
+    { key: "MedicationId", value: data.MedicationId, type: "VarChar" },
+    {
+      key: "MedicalRestrictions",
+      value: data.MedicalRestrictions,
+      type: "VarChar",
+    },
+    { key: "DoctorContactID", value: data.DoctorContactID, type: "VarChar" },
+    { key: "DentistContactID", value: data.DentistContactID, type: "VarChar" },
+    {
+      key: "OpticialContactID",
+      value: data.OpticialContactID,
+      type: "VarChar",
+    },
+    {
+      key: "TherapistContactID",
+      value: data.TherapistContactID,
+      type: "VarChar",
+    },
+    {
+      key: "CounselorContactID",
+      value: data.CounselorContactID,
+      type: "VarChar",
+    },
+    { key: "MedicalNoteID", value: data.MedicalNoteID, type: "VarChar" },
+  ];
+  return array.filter((Item) => Item.value !== undefined);
+}
+
 function validate(req) {
   const schema = {
     ResID: Joi.string().required(),
@@ -18,4 +52,5 @@ function validate(req) {
   return Joi.validate(req.body, schema);
 }
 
+exports.model = model;
 exports.validate = validate;

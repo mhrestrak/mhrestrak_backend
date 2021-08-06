@@ -1,5 +1,23 @@
 const Joi = require("joi");
 
+function model(data) {
+  let array = [
+    { key: "ResID", value: data.ResID, type: "VarChar" },
+    { key: "JobTitle", value: data.JobTitle, type: "VarChar" },
+    { key: "Industry", value: data.Industry, type: "VarChar" },
+    { key: "Skill", value: data.Skill, type: "VarChar" },
+    { key: "BusinessName", value: data.BusinessName, type: "VarChar" },
+    {
+      key: "EmployerContactID",
+      value: data.EmployerContactID,
+      type: "VarChar",
+    },
+    { key: "WorkHours", value: data.WorkHours, type: "Int" },
+    { key: "EmploymentNoteID", value: data.EmploymentNoteID, type: "VarChar" },
+  ];
+  return array.filter((Item) => Item.value !== undefined);
+}
+
 function validate(req) {
   const schema = {
     ResID: Joi.string().required(),
@@ -14,4 +32,5 @@ function validate(req) {
   return Joi.validate(req.body, schema);
 }
 
+exports.model = model;
 exports.validate = validate;

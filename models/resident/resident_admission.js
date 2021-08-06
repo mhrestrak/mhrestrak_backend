@@ -1,5 +1,54 @@
 const Joi = require("joi");
 
+function model(data) {
+  let array = [
+    { key: "ResID", value: data.ResID, type: "VarChar" },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" },
+    { key: "GuestInDate", value: data.GuestInDate, type: "Date" },
+    {
+      key: "TreatmentCenterListID",
+      value: data.TreatmentCenterListID,
+      type: "VarChar",
+    },
+    { key: "WasHomeless", value: data.WasHomeless, type: "Bit" },
+    { key: "WasJobless", value: data.WasJobless, type: "Bit" },
+    {
+      key: "WasDomesticallyAbused",
+      value: data.WasDomesticallyAbused,
+      type: "Bit",
+    },
+    {
+      key: "HasMentalHealthChallanges",
+      value: data.HasMentalHealthChallanges,
+      type: "Bit",
+    },
+    { key: "ProgramInDate", value: data.ProgramInDate, type: "Date" },
+    { key: "RoomNum", value: data.RoomNum, type: "Int" },
+    {
+      key: "ReferredByContactID",
+      value: data.ReferredByContactID,
+      type: "VarChar",
+    },
+    { key: "EstMoveOutDate", value: data.EstMoveOutDate, type: "Date" },
+    { key: "IsRestricted", value: data.IsRestricted, type: "Bit" },
+    { key: "IsApprovedPartner", value: data.IsApprovedPartner, type: "Bit" },
+    {
+      key: "IsApprovedBabySitter",
+      value: data.IsApprovedBabySitter,
+      type: "Bit",
+    },
+    { key: "CanSelfSignout", value: data.CanSelfSignout, type: "Bit" },
+    { key: "AdmissionNotesID", value: data.AdmissionNotesID, type: "VarChar" },
+    { key: "CaseWorkerName", value: data.CaseWorkerName, type: "VarChar" },
+    {
+      key: "IntakeCoordinatorName",
+      value: data.IntakeCoordinatorName,
+      type: "VarChar",
+    },
+  ];
+  return array.filter((Item) => Item.value !== undefined);
+}
+
 function validate(req) {
   const schema = {
     ResID: Joi.string().required(),
