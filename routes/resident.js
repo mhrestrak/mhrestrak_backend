@@ -45,10 +45,11 @@ router.get("/", auth, async (req, res) => {
     if (resName) poolRequest.input("resName", sql.VarChar, `%${resName}%`);
 
     let string = `SELECT * from ResProfile
-      ${ssn || resName ? "where" : ""}
+      where (isActive is 0 or isActive is null)
+      ${ssn || resName ? "&& (" : ""}
       ${ssn ? "ssn = @SSN" : ""}
       ${ssn && resName ? "or" : ""}
-      ${resName ? "ResFirstName like @resName" : ""}
+      ${resName ? "ResFirstName like @resName)" : ssn || resName ? ")" : ""}
       `;
 
     const data = await poolRequest.query(string);
