@@ -6,6 +6,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const db = require("../startup/database");
 const sql = require("mssql");
+const uniqid = require("uniqid");
 
 router.get("/me", auth, async (req, res) => {
   try {
@@ -29,8 +30,8 @@ router.post("/", async (req, res) => {
     const pool = db();
     user = await pool
       .request()
-      .input("_id", sql.VarChar, req.user._id)
-      .query("SELECT * from Users where _id = @_id");
+      .input("email", sql.VarChar, req.user.email)
+      .query("SELECT * from Users where email = @email");
   } catch (error) {
     res.status(400).send(error);
   }
@@ -40,26 +41,32 @@ router.post("/", async (req, res) => {
   if (user) return res.status(400).send("User alrseady registered..");
 
   user = _.pick(req.body, [
-    "name",
+    "firstName",
+    "lastName",
     "email",
-    "password",
+    "pass",
     "isAdmin",
     "isIntakeCoordinator",
   ]);
 
+  user._id = uniqid();
   const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+  user.pass = await bcrypt.hash(user.pass, salt);
 
   try {
     const pool = db();
     const addedUser = await pool
       .request()
-      .input("name", sql.NVarChar, user.name)
-      .input("email", sql.NVarChar, user.email)
-      .input("password", sql.NVarChar, user.password)
+      .input("firstName", sql.VarChar, user.firstName)
+      .input("lastName", sql.VarChar, user.lastName)
+      .input("_id", sql.VarChar, user._id)
+      .input("email", sql.VarChar, user.email)
+      .input("pass", sql.VarChar, user.pass)
       .input("isAdmin", sql.Bit, user.isAdmin ? 1 : 0)
       .input("isIntakeCoordinator", sql.Bit, user.isIntakeCoordinator ? 1 : 0)
-      .query("INSERT INTO Users (email,password,isAdmin, isIntakeCoordinator)");
+      .query(
+        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id)"
+      );
 
     console.log(addedUser.recordsets);
     const token = userToken(addedUser.recordsets);

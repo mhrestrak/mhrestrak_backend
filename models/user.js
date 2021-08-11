@@ -1,4 +1,3 @@
-// const mongoose = require("mongoose");
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const config = require("config");
@@ -7,7 +6,9 @@ function token(user) {
   return jwt.sign(
     {
       _id: user._id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
       isAdmin: user.isAdmin,
       isIntakeCoordinator: user.isIntakeCoordinator,
     },
@@ -17,9 +18,10 @@ function token(user) {
 
 function validate(req) {
   return Joi.validate(req, {
-    name: Joi.string().required().max(50).min(5),
+    firstName: Joi.string().required().max(50).min(5),
+    lastName: Joi.string().required().max(50).min(5),
     email: Joi.string().required().max(255).email().min(5),
-    password: Joi.string().required().min(5).max(255),
+    pass: Joi.string().required().min(5).max(255),
     isAdmin: Joi.boolean(),
     isIntakeCoordinator: Joi.boolean(),
   });

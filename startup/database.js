@@ -16,6 +16,7 @@ module.exports = async function () {
     return pool;
   } catch (err) {
     console.log("Connection Failed!!!");
+    console.log(err);
     return { error: err.message };
   }
 

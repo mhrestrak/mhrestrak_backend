@@ -15,7 +15,7 @@ const sql = require("mssql");
 router.post(
   "/",
   [auth, isIntakeCoordinator, validate(validateReturn), create(model)],
-  (req, res) => {
+  async (req, res) => {
     /// Updating active flag
     const pool = await db();
     const poolRequest = await pool.request();
