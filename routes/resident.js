@@ -36,7 +36,7 @@ router.get("/", auth, async (req, res) => {
   let query = req.query;
   let ssn = query.ssn;
   let resName = query.name;
-
+  console.log(query);
   try {
     const pool = await db();
     const poolRequest = await pool.request();
@@ -45,19 +45,18 @@ router.get("/", auth, async (req, res) => {
     if (resName) poolRequest.input("resName", sql.VarChar, `%${resName}%`);
 
     let string = `SELECT * from ResProfile
-      where (isActive is 0 or isActive is null)
-      ${ssn || resName ? "&& (" : ""}
+      ${ssn || resName ? "where (" : ""}
       ${ssn ? "ssn = @SSN" : ""}
       ${ssn && resName ? "or" : ""}
       ${resName ? "ResFirstName like @resName)" : ssn || resName ? ")" : ""}
       `;
-
+    console.log(string);
     const data = await poolRequest.query(string);
 
     res.send(data.recordset);
   } catch (error) {
     console.log(error);
-    res.status(400).send(error);
+    res.status(400).send("Failed Database connection");
   }
 });
 
@@ -81,7 +80,7 @@ router.get("/:id", auth, async (req, res) => {
     res.send(data.recordset[0]);
   } catch (error) {
     console.log(error);
-    res.status(400).send(error);
+    res.status(400).send("Failed Database connection");
   }
 });
 

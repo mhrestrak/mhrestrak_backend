@@ -15,24 +15,26 @@ router.post("/", async (req, res) => {
 
   try {
     const pool = await db();
-    const user = await pool
+    user = await pool
       .request()
       .input("email", sql.VarChar, req.body.email)
       .query("SELECT * from Users where email = @email");
-    user = user.recordsets;
-    console.log("Sdfd");
+    user = user.recordset;
   } catch (error) {
     console.log(error.message);
     return res.status(400).send(error.message);
   }
 
-  if (!user) return res.status(400).send("Invalid Username or password..");
-
-  const validPassword = bcrypt.compare(req.body.pass, user.pass);
+  if (user.length === 0)
+    return res.status(400).send("Invalid Email or password..");
+  console.log(req.body.pass);
+  console.log(user);
+  const validPassword = await bcrypt.compare(req.body.pass, user[0].pass);
+  console.log(validPassword);
   if (!validPassword)
-    return res.status(400).send("Invalid Username or password..");
+    return res.status(400).send("Invalid Email or password..");
 
-  const token = userToken(user);
+  const token = userToken(user[0]);
   res.send(token);
 });
 

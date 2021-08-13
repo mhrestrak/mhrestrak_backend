@@ -17,7 +17,7 @@ function token(user) {
 }
 
 function validate(req) {
-  return Joi.validate(req, {
+  const schema = Joi.object({
     firstName: Joi.string().required().max(50).min(5),
     lastName: Joi.string().required().max(50).min(5),
     email: Joi.string().required().max(255).email().min(5),
@@ -25,10 +25,11 @@ function validate(req) {
     isAdmin: Joi.boolean(),
     isIntakeCoordinator: Joi.boolean(),
   });
+  return schema.validate(req);
 }
 
 exports.userToken = token;
-exports.userValidation = validate;
+exports.validate = validate;
 
 // const userSchema = mongoose.Schema({
 //   name: {

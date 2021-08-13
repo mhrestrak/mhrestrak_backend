@@ -27,18 +27,18 @@ router.post("/", async (req, res) => {
 
   let user;
   try {
-    const pool = db();
+    const pool = await db();
     user = await pool
       .request()
-      .input("email", sql.VarChar, req.user.email)
+      .input("email", sql.VarChar, req.body.email)
       .query("SELECT * from Users where email = @email");
   } catch (error) {
-    res.status(400).send(error);
+    console.log("error", error);
+    return res.status(400).send(error);
   }
 
-  console.log(user);
-
-  if (user) return res.status(400).send("User alrseady registered..");
+  if (user.recordset.length > 0)
+    return res.status(400).send("User alrseady registered..");
 
   user = _.pick(req.body, [
     "firstName",
@@ -49,12 +49,14 @@ router.post("/", async (req, res) => {
     "isIntakeCoordinator",
   ]);
 
+  console.log(user);
   user._id = uniqid();
   const salt = await bcrypt.genSalt(10);
   user.pass = await bcrypt.hash(user.pass, salt);
 
+  console.log(user);
   try {
-    const pool = db();
+    const pool = await db();
     const addedUser = await pool
       .request()
       .input("firstName", sql.VarChar, user.firstName)
@@ -65,13 +67,13 @@ router.post("/", async (req, res) => {
       .input("isAdmin", sql.Bit, user.isAdmin ? 1 : 0)
       .input("isIntakeCoordinator", sql.Bit, user.isIntakeCoordinator ? 1 : 0)
       .query(
-        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id)"
+        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id) values (@firstName, @lastName, @email, @pass, @isAdmin, @isIntakeCoordinator, @_id)"
       );
 
-    console.log(addedUser.recordsets);
-    const token = userToken(addedUser.recordsets);
+    const token = userToken(user);
     res.header("x-auth-token", token).send(user);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error.message);
   }
 });

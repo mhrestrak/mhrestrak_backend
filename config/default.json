@@ -1,5 +1,5 @@
 {
-  "jwtPrivateKey": "",
+  "jwtPrivateKey": "12345",
   "dbServer": "metrohope.database.windows.net",
   "dbUser": "dbadmin",
   "dbPassword": "MHMdba1!",
