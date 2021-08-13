@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     user = user.recordset;
   } catch (error) {
     console.log(error.message);
-    return res.status(400).send(error.message);
+    return res.status(400).send("Failed Database connection");
   }
 
   if (user.length === 0)
