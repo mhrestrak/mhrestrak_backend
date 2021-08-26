@@ -4,6 +4,11 @@ function model(data) {
   let array = [
     { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "PartnerContactID", value: data.PartnerContactID, type: "VarChar" },
+    {
+      key: "ChildName",
+      value: data.ChildName,
+      type: "VarChar",
+    },
     { key: "ChildDob", value: data.ChildDob, type: "Date" },
     { key: "ChildInHouseFlag", value: data.ChildInHouseFlag, type: "Bit" },
     { key: "HasChildSupport", value: data.HasChildSupport, type: "Bit" },
@@ -17,7 +22,6 @@ function model(data) {
 function validate(req) {
   const schema = {
     ResID: Joi.string().required(),
-    // PartnerContactID: Joi.string().required().max(30),
     PartnerContactID: Joi.string().max(30),
     ChildDob: Joi.date(),
     ChildInHouseFlag: Joi.boolean(),
@@ -25,6 +29,7 @@ function validate(req) {
     PaysChildSupport: Joi.boolean(),
     ChildSupportAmount: Joi.number().max(30),
     IsPregnant: Joi.boolean(),
+    ChildName: Joi.string().max(30),
   };
   return Joi.validate(req.body, schema);
 }
