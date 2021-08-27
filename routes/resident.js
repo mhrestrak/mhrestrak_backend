@@ -20,17 +20,17 @@ const notes = require("./resident/notes");
 const router = express.Router();
 
 router.use("/basic", basic);
-// router.use("/admission", admission);
-// router.use("/contacts", contacts);
-// router.use("/drug", drug);
-// router.use("/education", education);
-// router.use("/employment", employment);
-// router.use("/family", family);
-// router.use("/finance", finance);
-// router.use("/legal", legal);
-// router.use("/medical", medical);
-// router.use("/medication", medication);
-// router.use("/notes", notes);
+router.use("/admission", admission);
+router.use("/contacts", contacts);
+router.use("/drug", drug);
+router.use("/education", education);
+router.use("/employment", employment);
+router.use("/family", family);
+router.use("/finance", finance);
+router.use("/legal", legal);
+router.use("/medical", medical);
+router.use("/medication", medication);
+router.use("/notes", notes);
 
 router.get("/", auth, async (req, res) => {
   let query = req.query;

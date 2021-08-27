@@ -8,6 +8,7 @@ let tables = [
   { name: "ResDrugInfo", path: "drug" },
   { name: "ResEducationInfo", path: "education" },
   { name: "ResEmployment", path: "employment" },
+  { name: "ResNotes", path: "notes" },
   { name: "ResFamily", path: "family" },
   { name: "ResFinance", path: "finance" },
   { name: "ResLegalCases", path: "legal" },
@@ -19,42 +20,51 @@ module.exports = (model) => {
   return async (req, res, next) => {
     let body = req.body;
     let path = req.originalUrl;
+    console.log(path);
     // let modelPath = `../../model/${path[2]}/${path[2]}_${path[3]}`;
 
     try {
-      let contactInfoModel = model(body);
-      let key = "ID";
-      if (path[3] === "basic") {
-        key = ResID;
-      }
-      contactInfoModel.push({
-        key: key,
-        value: uniqid(),
-        type: "VarChar",
-      });
-      let tableName = tables.filter((table) => table.path === path[3])[0];
-      let string = `INSERT INTO ${tableName} (`;
+      let updatedModel = model(body);
+      // let key = "ID";
+      // if (path[3] === "basic") {
+      //   key = ResID;
+      // }
+      // updatedModel.push({
+      //   key: key,
+      //   value: uniqid(),
+      //   type: "VarChar",
+      // });
+      console.log("1");
+      let tableName = tables.filter(
+        (table) => table.path === path.split("/")[3]
+      )[0];
+      let string = `INSERT INTO ${tableName.name} (`;
 
       const pool = await db();
       let poolRequest = await pool.request();
 
-      basicInfoModel.forEach((Item, i) => {
+      console.log("2");
+      console.log(updatedModel);
+      updatedModel.forEach((Item, i) => {
         if (i == 0) {
           string = string + Item.key;
         } else {
           string = string + "," + Item.key;
         }
-        if (Item.type === "Bit") {
-          poolRequest.input(
-            Item.key,
-            sql[Item.type],
-            Item.value === true ? 1 : 0
-          );
+        poolRequest.input(Item.key, sql[Item.type], Item.value);
+      });
+      string = string + ") values (";
+      updatedModel.forEach((Item, i) => {
+        if (i == 0) {
+          string = string + `@${Item.key}`;
         } else {
-          poolRequest.input(Item.key, sql[Item.type], Item.value);
+          string = string + "," + `@${Item.key}`;
         }
       });
+
       string = string + ")";
+      console.log("3");
+      console.log(string);
 
       let data = await poolRequest.query(string);
       req.data = data;

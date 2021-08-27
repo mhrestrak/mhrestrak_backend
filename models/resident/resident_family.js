@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 function model(data) {
   let array = [
+    { key: "ID", value: data.ID, type: "VarChar" },
     { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "PartnerContactID", value: data.PartnerContactID, type: "VarChar" },
     {
@@ -20,7 +21,8 @@ function model(data) {
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
+    ID: Joi.string(),
     ResID: Joi.string().required(),
     PartnerContactID: Joi.string().max(30),
     ChildDob: Joi.date(),
@@ -30,8 +32,8 @@ function validate(req) {
     ChildSupportAmount: Joi.number().max(30),
     IsPregnant: Joi.boolean(),
     ChildName: Joi.string().max(30),
-  };
-  return Joi.validate(req.body, schema);
+  });
+  return schema.validate(req.body);
 }
 
 exports.model = model;

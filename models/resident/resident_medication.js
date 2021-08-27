@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 function model(data) {
   let array = [
+    { key: "ID", value: data.ID, type: "VarChar" },
     { key: "ResID", value: data.ResID, type: "VarChar" },
     {
       key: "PrescriberContactId",
@@ -19,12 +20,18 @@ function model(data) {
     { key: "TimesPerDay", value: data.TimesPerDay, type: "VarChar" },
     { key: "Dosage", value: data.Dosage, type: "VarChar" },
     { key: "MedicationNoteID", value: data.MedicationNoteID, type: "VarChar" },
+    {
+      key: "MedicationName",
+      value: data.MedicationName,
+      type: "VarChar",
+    },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
+    ID: Joi.string(),
     ResID: Joi.string().required(),
     PrescriberContactId: Joi.string().max(15),
     PrescriberBusinessName: Joi.string().max(50),
@@ -34,8 +41,9 @@ function validate(req) {
     TimesPerDay: Joi.number().max(20).required(),
     Dosage: Joi.string().max(50),
     MedicationNoteID: Joi.string().max(50),
-  };
-  return Joi.validate(req.body, schema);
+    MedicationName: Joi.string().required().max(30),
+  });
+  return schema.validate(req.body);
 }
 
 exports.model = model;

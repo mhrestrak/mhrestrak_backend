@@ -2,6 +2,8 @@ const Joi = require("joi");
 
 function model(data) {
   let array = [
+    { key: "ID", value: data.ID, type: "VarChar" },
+    { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" },
     {
       key: "NoteCategoryListID",
@@ -19,7 +21,9 @@ function model(data) {
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
+    ID: Joi.string(),
+    ResID: Joi.string().required(),
     AdmissionID: Joi.string(),
     NoteCategoryListID: Joi.string().required().max(30),
     NoteSessionID: Joi.string().max(30),
@@ -28,8 +32,8 @@ function validate(req) {
     Note: Joi.string().required(),
     NoteByUID: Joi.string(),
     NoteByName: Joi.string(),
-  };
-  return Joi.validate(req.body, schema);
+  });
+  return schema.validate(req.body);
 }
 
 exports.model = model;

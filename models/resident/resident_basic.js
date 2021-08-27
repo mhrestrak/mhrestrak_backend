@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 function model(data) {
   let array = [
+    { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "SSN", value: data.SSN, type: "NVarChar" },
     { key: "ResPictureKey", value: data.ResPictureKey, type: "VarChar" },
     { key: "MaxisID", value: data.MaxisID, type: "VarChar" },
@@ -11,14 +12,14 @@ function model(data) {
     { key: "ResLastName", value: data.ResLastName, type: "VarChar" },
     { key: "ResEmailAddr", value: data.ResEmailAddr, type: "VarChar" },
     { key: "ResBirthDate", value: data.ResBirthDate, type: "Date" },
-    { key: "ResPhoneNumber", value: data.ResPhoneNumber, type: "Int" },
+    { key: "ResPhoneNumber", value: data.ResPhoneNumber, type: "VarChar" },
     { key: "WhereRaised", value: data.WhereRaised, type: "VarChar" },
     { key: "ResAddress1", value: data.ResAddress1, type: "VarChar" },
     { key: "ResCity", value: data.ResCity, type: "VarChar" },
     { key: "ResCounty", value: data.ResCounty, type: "VarChar" },
     { key: "ResState", value: data.ResState, type: "VarChar" },
     { key: "ResZipCode", value: data.ResZipCode, type: "VarChar" },
-    { key: "IsVeteran", value: data.IsVeteran, type: "" },
+    { key: "IsVeteran", value: data.IsVeteran, type: "Bit" },
     { key: "RaceListID", value: data.RaceListID, type: "VarChar" },
     {
       key: "MaritalStatusListID",
@@ -42,10 +43,11 @@ function model(data) {
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
+    ResID: Joi.string().required(),
     SSN: Joi.string().required().max(12),
     ResPictureKey: Joi.string(),
-    MaxisID: Joi.string().required().max(12),
+    MaxisID: Joi.string().max(12),
     PSNumber: Joi.string().required().max(12),
     IsActive: Joi.boolean(),
     ResFirstName: Joi.string().required().max(30),
@@ -53,7 +55,7 @@ function validate(req) {
     ResLastName: Joi.string().required().max(30),
     ResEmailAddr: Joi.string().required().max(60),
     ResBirthDate: Joi.date().required(),
-    ResPhoneNumber: Joi.number(),
+    ResPhoneNumber: Joi.string().max(30),
     WhereRaised: Joi.string().required().max(100),
     ResAddress1: Joi.string().max(50),
     ResCity: Joi.string().max(30),
@@ -71,8 +73,8 @@ function validate(req) {
     ChurchPhone: Joi.string().max(15),
     RecentPhase: Joi.string().max(30),
     RecentAdmissionID: Joi.string().max(30),
-  };
-  return Joi.validate(req.body, schema);
+  });
+  return schema.validate(req.body);
 }
 
 exports.model = model;

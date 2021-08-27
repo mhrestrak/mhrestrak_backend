@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 function model(data) {
   let array = [
+    { key: "ID", value: data.ID, type: "VarChar" },
     { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "JobTitle", value: data.JobTitle, type: "VarChar" },
     { key: "Industry", value: data.Industry, type: "VarChar" },
@@ -19,7 +20,8 @@ function model(data) {
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
+    ID: Joi.string(),
     ResID: Joi.string().required(),
     JobTitle: Joi.string().required().max(30),
     Industry: Joi.string().max(30),
@@ -28,8 +30,8 @@ function validate(req) {
     EmployerContactID: Joi.string(),
     WorkHours: Joi.number(),
     EmploymentNoteID: Joi.string(),
-  };
-  return Joi.validate(req.body, schema);
+  });
+  return schema.validate(req.body);
 }
 
 exports.model = model;

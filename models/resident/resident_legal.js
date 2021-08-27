@@ -2,10 +2,11 @@ const Joi = require("joi");
 
 function model(data) {
   let array = [
+    { key: "ID", value: data.ID, type: "VarChar" },
     { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" },
     { key: "LegalCaseID", value: data.LegalCaseID, type: "VarChar" },
-    { key: "CaseNumber", value: data.CaseNumber, type: "Int" },
+    { key: "CaseNumber", value: data.CaseNumber, type: "VarChar" },
     { key: "ChargesSummary", value: data.ChargesSummary, type: "VarChar" },
     { key: "ChargeLevel", value: data.ChargeLevel, type: "VarChar" },
     { key: "CaseName", value: data.CaseName, type: "VarChar" },
@@ -41,17 +42,18 @@ function model(data) {
     { key: "NeedCourtApproval", value: data.NeedCourtApproval, type: "Bit" },
     { key: "ActiveWarrant", value: data.ActiveWarrant, type: "Bit" },
     { key: "WarrantDate", value: data.WarrantDate, type: "Date" },
-    { key: "WarrentCounty", value: data.WarrentCounty, type: "VarChar" },
-    { key: "WarrentState", value: data.WarrentState, type: "VarChar" },
+    { key: "WarrantCounty", value: data.WarrantCounty, type: "VarChar" },
+    { key: "WarrantState", value: data.WarrantState, type: "VarChar" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
+    ID: Joi.string(),
     ResID: Joi.string().required(),
-    AdmissionID: Joi.string().required(),
-    LegalCaseID: Joi.string().required().max(30),
+    AdmissionID: Joi.string(),
+    LegalCaseID: Joi.string().max(30),
     CaseNumber: Joi.string().required().max(30),
     ChargesSummary: Joi.string().max(50),
     ChargeLevel: Joi.string().max(30),
@@ -72,10 +74,10 @@ function validate(req) {
     NeedCourtApproval: Joi.boolean(),
     ActiveWarrant: Joi.boolean(),
     WarrantDate: Joi.date(),
-    WarrentCounty: Joi.string().max(50),
-    WarrentState: Joi.string().max(50),
-  };
-  return Joi.validate(req.body, schema);
+    WarrantCounty: Joi.string().max(50),
+    WarrantState: Joi.string().max(50),
+  });
+  return schema.validate(req.body);
 }
-
+exports.model = model;
 exports.validate = validate;

@@ -50,7 +50,7 @@ function model(data) {
 }
 
 function validate(req) {
-  const schema = {
+  const schema = Joi.object({
     ResID: Joi.string().required(),
     AdmissionID: Joi.string().required().max(30),
     GuestInDate: Joi.date().required(),
@@ -70,8 +70,8 @@ function validate(req) {
     AdmissionNotesID: Joi.boolean(),
     CaseWorkerName: Joi.string().max(30),
     IntakeCoordinatorName: Joi.Joi.string().required().max(30),
-  };
-  return Joi.validate(req.body, schema);
+  });
+  return schema.validate(req.body);
 }
 
 exports.validate = validate;
