@@ -54,7 +54,7 @@ function validate(req) {
     ResID: Joi.string().required(),
     AdmissionID: Joi.string().required().max(30),
     GuestInDate: Joi.date().required(),
-    TreatmentCenterListID: Joi.string().required().max(30),
+    TreatmentCenterListID: Joi.string().max(30),
     WasHomeless: Joi.boolean(),
     WasJobless: Joi.boolean(),
     WasDomesticallyAbused: Joi.boolean(),
@@ -69,9 +69,9 @@ function validate(req) {
     CanSelfSignout: Joi.boolean(),
     AdmissionNotesID: Joi.boolean(),
     CaseWorkerName: Joi.string().max(30),
-    IntakeCoordinatorName: Joi.Joi.string().required().max(30),
+    IntakeCoordinatorName: Joi.string().required().max(30),
   });
   return schema.validate(req.body);
 }
-
+exports.model = model;
 exports.validate = validate;

@@ -19,7 +19,7 @@ router.post(
     /// Updating active flag
     const pool = await db();
     const poolRequest = await pool.request();
-    poolRequest.input("isActive", sql.Bit, 1);
+    poolRequest.input("isActive", sql.Bit, true);
     poolRequest.input("ResID", sql.VarChar, req.body.ResID);
     let string = `update ResProfile set isActive = @isActive where ResID = @ResID`;
     const updatedResProfile = await poolRequest.query(string);
