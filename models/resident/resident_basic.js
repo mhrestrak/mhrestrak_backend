@@ -32,6 +32,7 @@ function model(data) {
     { key: "ChurchName", value: data.ChurchName, type: "VarChar" },
     { key: "ChurchLocation", value: data.ChurchLocation, type: "VarChar" },
     { key: "ChurchPhone", value: data.ChurchPhone, type: "VarChar" },
+    { key: "IsPregnant", value: data.IsPregnant, type: "Bit" },
     { key: "RecentPhase", value: data.RecentPhase, type: "VarChar" },
     {
       key: "RecentAdmissionID",
@@ -71,6 +72,7 @@ function validate(req) {
     ChurchName: Joi.string().max(30),
     ChurchLocation: Joi.string().max(30),
     ChurchPhone: Joi.string().max(15),
+    IsPregnant: Joi.boolean(),
     RecentPhase: Joi.string().max(30),
     RecentAdmissionID: Joi.string().max(30),
   });

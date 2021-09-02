@@ -16,7 +16,6 @@ function model(data) {
     { key: "HasChildSupport", value: data.HasChildSupport, type: "Bit" },
     { key: "PaysChildSupport", value: data.PaysChildSupport, type: "Bit" },
     { key: "ChildSupportAmount", value: data.ChildSupportAmount, type: "Int" },
-    { key: "IsPregnant", value: data.IsPregnant, type: "Bit" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -32,7 +31,6 @@ function validate(req) {
     HasChildSupport: Joi.boolean(),
     PaysChildSupport: Joi.boolean(),
     ChildSupportAmount: Joi.number(),
-    IsPregnant: Joi.boolean(),
     ChildName: Joi.string().max(30),
   });
   return schema.validate(req.body);
