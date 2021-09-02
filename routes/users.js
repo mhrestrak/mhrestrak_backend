@@ -47,6 +47,7 @@ router.post("/", async (req, res) => {
     "pass",
     "isAdmin",
     "isIntakeCoordinator",
+    "Center",
   ]);
 
   console.log(user);
@@ -66,8 +67,9 @@ router.post("/", async (req, res) => {
       .input("pass", sql.VarChar, user.pass)
       .input("isAdmin", sql.Bit, user.isAdmin ? 1 : 0)
       .input("isIntakeCoordinator", sql.Bit, user.isIntakeCoordinator ? 1 : 0)
+      .input("Center", sql.VarChar, user.Center)
       .query(
-        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id) values (@firstName, @lastName, @email, @pass, @isAdmin, @isIntakeCoordinator, @_id)"
+        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id, Center) values (@firstName, @lastName, @email, @pass, @isAdmin, @isIntakeCoordinator, @_id, Center)"
       );
 
     const token = userToken(user);
