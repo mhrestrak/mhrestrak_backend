@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
       .input("isIntakeCoordinator", sql.Bit, user.isIntakeCoordinator ? 1 : 0)
       .input("Center", sql.VarChar, user.Center)
       .query(
-        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id, Center) values (@firstName, @lastName, @email, @pass, @isAdmin, @isIntakeCoordinator, @_id, Center)"
+        "INSERT INTO Users (firstName, lastName, email, pass, isAdmin, isIntakeCoordinator, _id, Center) values (@firstName, @lastName, @email, @pass, @isAdmin, @isIntakeCoordinator, @_id, @Center)"
       );
 
     const token = userToken(user);
