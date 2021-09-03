@@ -11,6 +11,7 @@ function token(user) {
       email: user.email,
       isAdmin: user.isAdmin,
       isIntakeCoordinator: user.isIntakeCoordinator,
+      Center: user.Center,
     },
     config.get("jwtPrivateKey")
   );
