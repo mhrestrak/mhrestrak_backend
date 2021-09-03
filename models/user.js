@@ -24,6 +24,7 @@ function validate(req) {
     pass: Joi.string().required().min(5).max(255),
     isAdmin: Joi.boolean(),
     isIntakeCoordinator: Joi.boolean(),
+    Center: Joi.string().required().max(50).min(5),
   });
   return schema.validate(req);
 }
