@@ -31,6 +31,8 @@ function model(data) {
       type: "VarChar",
     },
     { key: "MedicalNoteID", value: data.MedicalNoteID, type: "VarChar" },
+    { key: "Treatment", value: data.Treatment, type: "VarChar" },
+    { key: "Condition", value: data.Condition, type: "VarChar" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }

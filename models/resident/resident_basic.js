@@ -39,6 +39,10 @@ function model(data) {
       value: data.RecentAdmissionID,
       type: "VarChar",
     },
+    { key: "AdmittedFrom", value: data.AdmittedFrom, type: "VarChar" },
+    { key: "OnMA", value: data.OnMA, type: "Bit" },
+    { key: "OnSSISSD", value: data.OnSSISSD, type: "Bit" },
+    { key: "IsEmployed", value: data.IsEmployed, type: "Bit" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
