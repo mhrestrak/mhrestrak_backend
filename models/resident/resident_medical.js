@@ -50,6 +50,8 @@ function validate(req) {
     TherapistContactID: Joi.string().max(50),
     CounselorContactID: Joi.string().max(50),
     MedicalNoteID: Joi.string().max(50),
+    Treatment: Joi.string().max(50),
+    Condition: Joi.string().max(50),
   });
   return schema.validate(req.body);
 }

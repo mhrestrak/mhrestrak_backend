@@ -20,6 +20,7 @@ function validate(req) {
     LastDateOfUse: Joi.date().required(),
     MethodOfUse: Joi.string().max(30),
     UseComment: Joi.string().max(50),
+    PrimaryDrugOfChoice: Joi.boolean(),
   });
   return schema.validate(req.body);
 }

@@ -49,10 +49,10 @@ function validate(req) {
     SSN: Joi.string().required().max(12),
     ResPictureKey: Joi.string(),
     MaxisID: Joi.string().max(12),
-    PSNumber: Joi.string().required().max(12),
+    PSNumber: Joi.string().max(12),
     IsActive: Joi.boolean(),
     ResFirstName: Joi.string().required().max(30),
-    ResMiddleName: Joi.string().required().max(30),
+    ResMiddleName: Joi.string().max(30),
     ResLastName: Joi.string().required().max(30),
     ResEmailAddr: Joi.string().required().max(60),
     ResBirthDate: Joi.date().required(),
@@ -75,6 +75,10 @@ function validate(req) {
     IsPregnant: Joi.boolean(),
     RecentPhase: Joi.string().max(30),
     RecentAdmissionID: Joi.string().max(30),
+    AdmittedFrom: Joi.string().max(100),
+    OnMA: Joi.boolean(),
+    OnSSISSD: Joi.boolean(),
+    IsEmployed: Joi.boolean(),
   });
   return schema.validate(req.body);
 }

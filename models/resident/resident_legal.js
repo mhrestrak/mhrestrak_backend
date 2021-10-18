@@ -54,7 +54,7 @@ function validate(req) {
     ResID: Joi.string().required(),
     AdmissionID: Joi.string(),
     LegalCaseID: Joi.string().max(30),
-    CaseNumber: Joi.string().required().max(30),
+    CaseNumber: Joi.string().max(30),
     ChargesSummary: Joi.string().max(50),
     ChargeLevel: Joi.string().max(30),
     CaseName: Joi.string().max(50),
