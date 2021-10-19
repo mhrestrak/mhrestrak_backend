@@ -8,6 +8,11 @@ function model(data) {
     { key: "LastDateOfUse", value: data.LastDateOfUse, type: "Date" },
     { key: "MethodOfUse", value: data.MethodOfUse, type: "VarChar" },
     { key: "UseComment", value: data.UseComment, type: "VarChar" },
+    {
+      key: "PrimaryDrugOfChoice",
+      value: data.PrimaryDrugOfChoice,
+      type: "Bit",
+    },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
