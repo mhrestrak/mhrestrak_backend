@@ -33,6 +33,7 @@ function model(data) {
     { key: "ChurchLocation", value: data.ChurchLocation, type: "VarChar" },
     { key: "ChurchPhone", value: data.ChurchPhone, type: "VarChar" },
     { key: "IsPregnant", value: data.IsPregnant, type: "Bit" },
+    { key: "IsActive", value: data.IsActive ? data.IsActive : false, type: "Bit" },
     { key: "RecentPhase", value: data.RecentPhase, type: "VarChar" },
     {
       key: "RecentAdmissionID",
@@ -43,6 +44,7 @@ function model(data) {
     { key: "OnMA", value: data.OnMA, type: "Bit" },
     { key: "OnSSISSD", value: data.OnSSISSD, type: "Bit" },
     { key: "IsEmployed", value: data.IsEmployed, type: "Bit" },
+    { key: "RoomNum", value: data.RoomNum, type: "Int" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -83,9 +85,23 @@ function validate(req) {
     OnMA: Joi.boolean(),
     OnSSISSD: Joi.boolean(),
     IsEmployed: Joi.boolean(),
+    RoomNum : Joi.number()
   });
   return schema.validate(req.body);
 }
 
+function validateUpdate(req){
+  const schema = Joi.object({
+    IsActive: Joi.boolean().allow(null),
+    RoomNum : Joi.number().optional().allow(null),
+    RecentPhase : Joi.string().max(30)
+  })
+  return schema.validate({
+    IsActive: req.body["IsActive"],
+    RoomNum : req.body["RoomNum"],
+    RecentPhase : req.body["RecentPhase"]
+  })
+}
 exports.model = model;
 exports.validate = validate;
+exports.validateUpdate = validateUpdate;

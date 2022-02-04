@@ -18,10 +18,13 @@ router.post(
   async (req, res) => {
     /// Updating active flag
     const pool = await db();
+    //@ts-ignore
     const poolRequest = await pool.request();
     poolRequest.input("isActive", sql.Bit, true);
     poolRequest.input("ResID", sql.VarChar, req.body.ResID);
-    let string = `update ResProfile set isActive = @isActive where ResID = @ResID`;
+    poolRequest.input("RoomNum", sql.Int, req.body.RoomNum);
+    poolRequest.input("LastEntryDate", sql.DateTime, req.body.GuestInDate)
+    let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;
     const updatedResProfile = await poolRequest.query(string);
 
     res.send(req.data);

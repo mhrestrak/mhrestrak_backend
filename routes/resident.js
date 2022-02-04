@@ -39,6 +39,7 @@ router.get("/", auth, async (req, res) => {
   console.log(query);
   try {
     const pool = await db();
+    //@ts-ignore
     const poolRequest = await pool.request();
 
     if (ssn) poolRequest.input("SSN", sql.VarChar, ssn);
@@ -52,7 +53,7 @@ router.get("/", auth, async (req, res) => {
       `;
     console.log(string);
     const data = await poolRequest.query(string);
-
+    console.log(data)
     res.send(data.recordset);
   } catch (error) {
     console.log(error);
@@ -67,8 +68,8 @@ router.get("/:id", auth, async (req, res) => {
   try {
     let string = `SELECT * from ResProfile where ResID = @ResID`;
     const pool = await db();
-    const data = await pool
-      .request()
+    //@ts-ignore
+    const data = await pool.request()
       .input("ResID", sql.NVarChar, resID)
       .query(string);
 

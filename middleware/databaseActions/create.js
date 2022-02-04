@@ -42,6 +42,7 @@ module.exports = (model) => {
       let string = `INSERT INTO ${tableName.name} (`;
 
       const pool = await db();
+      //@ts-ignore
       let poolRequest = await pool.request();
 
       console.log("2");
