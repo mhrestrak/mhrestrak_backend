@@ -60,7 +60,7 @@ function validate(req) {
     ResFirstName: Joi.string().required().max(30),
     ResMiddleName: Joi.string().max(30),
     ResLastName: Joi.string().required().max(30),
-    ResEmailAddr: Joi.string().required().max(60),
+    ResEmailAddr: Joi.string().max(60),
     ResBirthDate: Joi.date().required(),
     ResPhoneNumber: Joi.string().max(30),
     WhereRaised: Joi.string().required().max(100),
