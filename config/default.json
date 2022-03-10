@@ -3,5 +3,5 @@
   "dbServer": "metrohope.database.windows.net",
   "dbUser": "dbadmin",
   "dbPassword": "Hopefortomorrow2.0",
-  "db": "mhrestrackdemo"
+  "db": "mhrestrackproduction"
 }
