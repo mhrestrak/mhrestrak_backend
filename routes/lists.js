@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
   let listNameID = query.listid;
   try {
     const pool = await db();
+    //@ts-ignore
     const poolRequest = await pool.request();
 
     poolRequest.input("ListNameID", sql.Int, listNameID);
