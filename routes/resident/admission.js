@@ -18,7 +18,7 @@ router.post(
   async (req, res) => {
     /// Updating active flag
     const pool = await db();
-    //@ts-ignore
+    console.log("admission created")
     const poolRequest = await pool.request();
     poolRequest.input("isActive", sql.Bit, true);
     poolRequest.input("ResID", sql.VarChar, req.body.ResID);
