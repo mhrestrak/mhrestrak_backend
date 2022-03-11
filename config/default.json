@@ -1,7 +1,7 @@
 {
-  "jwtPrivateKey": "12345",
-  "dbServer": "metrohope.database.windows.net",
-  "dbUser": "dbadmin",
-  "dbPassword": "Hopefortomorrow2.0",
-  "db": "mhrestrackdemo"
+  "jwtPrivateKey": "",
+  "dbServer": "",
+  "dbUser": "",
+  "dbPassword": "",
+  "db": ""
 }
