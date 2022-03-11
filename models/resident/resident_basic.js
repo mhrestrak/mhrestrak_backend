@@ -1,3 +1,4 @@
+//@ts-ignore
 const Joi = require("joi");
 
 function model(data) {
@@ -63,7 +64,7 @@ function validate(req) {
     ResEmailAddr: Joi.string().max(60),
     ResBirthDate: Joi.date().required(),
     ResPhoneNumber: Joi.string().max(30),
-    WhereRaised: Joi.string().required().max(100),
+    WhereRaised: Joi.string().max(100),
     ResAddress1: Joi.string().max(50),
     ResCity: Joi.string().max(30),
     ResCounty: Joi.string().max(30),
