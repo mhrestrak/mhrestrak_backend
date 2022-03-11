@@ -66,7 +66,7 @@ function validate(req) {
     IsRestricted: Joi.boolean(),
     IsApprovedPartner: Joi.boolean(),
     IsApprovedBabySitter: Joi.boolean(),
-    RecentPhase : Joi.string().max(30).required(),
+    RecentPhase : Joi.string().max(30),
     CanSelfSignout: Joi.boolean(),
     AdmissionNotesID: Joi.boolean(),
     CaseWorkerName: Joi.string().max(30),
