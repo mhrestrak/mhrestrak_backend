@@ -38,7 +38,7 @@ function validate(req) {
     InsuranceName: Joi.string().max(50),
     StartDate: Joi.date(),
     EndDate: Joi.date(),
-    TimesPerDay: Joi.string.max(50),
+    TimesPerDay: Joi.string().max(50),
     Dosage: Joi.string().max(50),
     MedicationNoteID: Joi.string().max(50),
     MedicationName: Joi.string().required().max(30),
