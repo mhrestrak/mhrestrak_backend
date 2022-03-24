@@ -23,7 +23,7 @@ function model(data) {
       type: "Bit",
     },
     { key: "ProgramInDate", value: data.ProgramInDate, type: "Date" },
-    { key: "RoomNum", value: data.RoomNum, type: "Int" },
+    { key: "RoomNum", value: data.RoomNum, type: "VarChar" },
     {
       key: "ReferredByContactID",
       value: data.ReferredByContactID,
@@ -60,7 +60,7 @@ function validate(req) {
     WasDomesticallyAbused: Joi.boolean(),
     HasMentalHealthChallanges: Joi.boolean(),
     ProgramInDate: Joi.date().required(),
-    RoomNum: Joi.number(),
+    RoomNum: Joi.string().max(30),
     ReferredByContactID: Joi.string().max(30),
     EstMoveOutDate: Joi.date(),
     IsRestricted: Joi.boolean(),
