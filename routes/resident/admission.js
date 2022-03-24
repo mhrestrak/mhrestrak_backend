@@ -19,11 +19,12 @@ router.post(
     /// Updating active flag
     const pool = await db();
     console.log("admission created")
+    //@ts-ignore
     const poolRequest = await pool.request();
     poolRequest.input("isActive", sql.Bit, true);
     poolRequest.input("ResID", sql.VarChar, req.body.ResID);
     poolRequest.input("RecentPhase", sql.VarChar, req.body.RecentPhase);
-    poolRequest.input("RoomNum", sql.Int, req.body.RoomNum);
+    poolRequest.input("RoomNum", sql.VarChar, req.body.RoomNum);
     poolRequest.input("LastEntryDate", sql.DateTime, req.body.GuestInDate)
     let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum, RecentPhase = @RecentPhase where ResID = @ResID`;
     // let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;

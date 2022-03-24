@@ -45,7 +45,7 @@ function model(data) {
     { key: "OnMA", value: data.OnMA, type: "Bit" },
     { key: "OnSSISSD", value: data.OnSSISSD, type: "Bit" },
     { key: "IsEmployed", value: data.IsEmployed, type: "Bit" },
-    { key: "RoomNum", value: data.RoomNum, type: "Int" }
+    { key: "RoomNum", value: data.RoomNum, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -86,7 +86,7 @@ function validate(req) {
     OnMA: Joi.boolean(),
     OnSSISSD: Joi.boolean(),
     IsEmployed: Joi.boolean(),
-    RoomNum : Joi.number()
+    RoomNum : Joi.string().max(30)
   });
   return schema.validate(req.body);
 }
@@ -94,7 +94,7 @@ function validate(req) {
 function validateUpdate(req){
   const schema = Joi.object({
     IsActive: Joi.boolean().allow(null),
-    RoomNum : Joi.number().optional().allow(null),
+    RoomNum : Joi.string().max(30).optional().allow(null),
     RecentPhase : Joi.string().max(30)
   })
   return schema.validate({
