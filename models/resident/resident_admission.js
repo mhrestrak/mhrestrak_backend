@@ -45,6 +45,40 @@ function model(data) {
       value: data.IntakeCoordinatorName,
       type: "VarChar",
     },
+    {
+      key: "WhoReferred",
+      value: data.WhoReferred,
+      type: "VarChar",
+    },
+    {
+      key: "ReasonForLeaving",
+      value: data.ReasonForLeaving,
+      type: "VarChar",
+    },
+    { key: "DateOut", value: data.DateOut, type: "Date" },
+    { key: "PossessionsRemovedDate", value: data.PossessionsRemovedDate, type: "Date" },
+    {
+      key: "DischargeLocation",
+      value: data.DischargeLocation,
+      type: "VarChar",
+    },
+    { key: "BlockFromReentry", value: data.BlockFromReentry, type: "Bit" },
+    { key: "LeftVolunteerly", value: data.LeftVolunteerly, type: "Bit" },
+    {
+      key: "UnresolvedIssues",
+      value: data.UnresolvedIssues,
+      type: "VarChar",
+    },
+    {
+      key: "ReadmitConditions",
+      value: data.ReadmitConditions,
+      type: "VarChar",
+    },
+    {
+      key: "ExitNotes",
+      value: data.ExitNotes,
+      type: "VarChar",
+    },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -54,12 +88,12 @@ function validate(req) {
     ResID: Joi.string().required(),
     AdmissionID: Joi.string().required().max(30),
     GuestInDate: Joi.date().required(),
-    TreatmentCenterListID: Joi.string().max(30),
+    TreatmentCenterListID: Joi.string().max(30).optional().allow(""),
     WasHomeless: Joi.boolean(),
     WasJobless: Joi.boolean(),
     WasDomesticallyAbused: Joi.boolean(),
     HasMentalHealthChallanges: Joi.boolean(),
-    ProgramInDate: Joi.date().required(),
+    ProgramInDate: Joi.date(),
     RoomNum: Joi.string().max(30),
     ReferredByContactID: Joi.string().max(30),
     EstMoveOutDate: Joi.date(),
@@ -70,7 +104,18 @@ function validate(req) {
     CanSelfSignout: Joi.boolean(),
     AdmissionNotesID: Joi.boolean(),
     CaseWorkerName: Joi.string().max(30),
-    IntakeCoordinatorName: Joi.string().required().max(30),
+    IntakeCoordinatorName: Joi.string().max(30),
+    
+    WhoReferred : Joi.string().max(30),
+    ReasonForLeaving : Joi.string().max(30),
+    DateOut: Joi.date(),
+    PossessionsRemovedDate: Joi.date(),
+    DischargeLocation : Joi.string().max(30),
+    BlockFromReentry: Joi.boolean(),
+    LeftVolunteerly: Joi.boolean(),
+    UnresolvedIssues : Joi.string().max(30),
+    ReadmitConditions : Joi.string().max(30),
+    ExitNotes : Joi.string().max(200),
   });
   return schema.validate(req.body);
 }
