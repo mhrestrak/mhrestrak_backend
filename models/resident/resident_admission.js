@@ -86,8 +86,8 @@ function model(data) {
 function validate(req) {
   const schema = Joi.object({
     ResID: Joi.string().required(),
-    AdmissionID: Joi.string().required().max(30),
-    GuestInDate: Joi.date().required(),
+    AdmissionID: Joi.string().max(30),
+    GuestInDate: Joi.date(),
     TreatmentCenterListID: Joi.string().max(30).optional().allow(""),
     WasHomeless: Joi.boolean(),
     WasJobless: Joi.boolean(),
