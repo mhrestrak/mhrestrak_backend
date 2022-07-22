@@ -36,12 +36,14 @@ router.post(
   [auth, isIntakeCoordinator, validate(validateUpdate)],
   async (req, res) => {
     let body = req.body;
+    console.log(body)
     let data
     try {
       let updatedModel = model({
         RoomNum: body["RoomNum"],
         RecentPhase: body["RecentPhase"],
       });
+      console.log(updatedModel)
       let tableName = "ResProfile";
 
       let query = `UPDATE ${tableName} SET `;
@@ -67,7 +69,7 @@ router.post(
       }
 
       query = query + ` WHERE ResID='${body["ResID"]}'`;
-
+      console.log(query)
       data = await poolRequest.query(query);
       //@ts-ignore
       pool.close();
