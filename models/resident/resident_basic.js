@@ -34,7 +34,7 @@ function model(data) {
     { key: "ChurchLocation", value: data.ChurchLocation, type: "VarChar" },
     { key: "ChurchPhone", value: data.ChurchPhone, type: "VarChar" },
     { key: "IsPregnant", value: data.IsPregnant, type: "Bit" },
-    { key: "IsActive", value: data.IsActive ? data.IsActive : false, type: "Bit" },
+    { key: "IsActive", value: data.IsActive, type: "Bit" },
     { key: "RecentPhase", value: data.RecentPhase, type: "VarChar" },
     {
       key: "RecentAdmissionID",
@@ -93,12 +93,10 @@ function validate(req) {
 
 function validateUpdate(req){
   const schema = Joi.object({
-    IsActive: Joi.boolean().allow(null),
     RoomNum : Joi.string().max(30).optional().allow(null),
     RecentPhase : Joi.string().max(30)
   })
   return schema.validate({
-    IsActive: req.body["IsActive"],
     RoomNum : req.body["RoomNum"],
     RecentPhase : req.body["RecentPhase"]
   })
