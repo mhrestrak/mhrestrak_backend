@@ -93,12 +93,28 @@ function validate(req) {
 
 function validateUpdate(req){
   const schema = Joi.object({
-    RoomNum : Joi.string().max(30).optional().allow(null),
-    RecentPhase : Joi.string().max(30)
+    SSN: Joi.string().required().max(12),
+    ResFirstName: Joi.string().required().max(30),
+    ResLastName: Joi.string().required().max(30),
+    ResEmailAddr: Joi.string().max(60),
+    ResPhoneNumber: Joi.string().max(30),
+    IsChurchAttender: Joi.boolean(),
+    IsPregnant: Joi.boolean(),
+    IsEmployed: Joi.boolean(),
+    // RoomNum : Joi.string().max(30).optional().allow(null),
+    // RecentPhase : Joi.string().max(30)
   })
   return schema.validate({
-    RoomNum : req.body["RoomNum"],
-    RecentPhase : req.body["RecentPhase"]
+    SSN: req.body["SSN"],
+    ResFirstName: req.body["ResFirstName"],
+    ResLastName: req.body["ResLastName"],
+    ResEmailAddr: req.body["ResEmailAddr"],
+    ResPhoneNumber: req.body["ResPhoneNumber"],
+    IsChurchAttender: req.body["IsChurchAttender"],
+    IsPregnant: req.body["IsPregnant"],
+    IsEmployed: req.body["IsEmployed"],
+    // RoomNum : req.body["RoomNum"],
+    // RecentPhase : req.body["RecentPhase"]
   })
 }
 exports.model = model;

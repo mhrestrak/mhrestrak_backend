@@ -33,24 +33,18 @@ router.use("/medication", medication);
 router.use("/notes", notes);
 
 router.get("/", auth, async (req, res) => {
-  let query = req.query;
-  let ssn = query.ssn;
-  let resName = query.name;
+  let {query} = req.query;
   console.log(query);
   try {
     const pool = await db();
     //@ts-ignore
     const poolRequest = await pool.request();
 
-    if (ssn) poolRequest.input("SSN", sql.VarChar, ssn);
-    if (resName) poolRequest.input("resName", sql.VarChar, `%${resName}%`);
+    if (query) {
+      poolRequest.input("query", sql.VarChar, query);
+    }
 
-    let string = `SELECT * from ResProfile
-      ${ssn || resName ? "where (" : ""}
-      ${ssn ? "ssn = @SSN" : ""}
-      ${ssn && resName ? "or" : ""}
-      ${resName ? "ResFirstName like @resName)" : ssn || resName ? ")" : ""}
-      `;
+    let string = `SELECT * from ResProfile ${query && "where (ssn = @query or ResFirstName like @query or ResLastName like @query)"}`;
     console.log(string);
     const data = await poolRequest.query(string);
     console.log(data)
