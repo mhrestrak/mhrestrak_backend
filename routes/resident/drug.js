@@ -8,10 +8,12 @@ const {
   validate: validateReturn,
 } = require("../../models/resident/resident_drug");
 const create = require("../../middleware/databaseActions/create");
+const update = require("../../middleware/databaseActions/update");
 
 const router = express.Router();
 const sql = require("mssql");
 const db = require("../../startup/database");
+const _delete = require("../../middleware/databaseActions/delete");
 
 router.post(
   "/",
@@ -20,6 +22,18 @@ router.post(
     res.send(req.data);
   }
 );
+
+router.put(
+"/",
+  [auth, isIntakeCoordinator, validate(validateReturn), update(model)],
+  async (req, res) => {
+    res.send(req.data);
+  }
+);
+
+router.delete("/:id",[auth, isIntakeCoordinator, _delete()],async (req, res) => {
+    res.send(req.data);
+});
 
 router.get("/:id", [auth, isIntakeCoordinator], async (req, res) => {
 let resID = req.params.id;

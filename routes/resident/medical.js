@@ -12,6 +12,8 @@ const create = require("../../middleware/databaseActions/create");
 const router = express.Router();
 const sql = require("mssql");
 const db = require("../../startup/database");
+const update = require("../../middleware/databaseActions/update");
+const _delete = require("../../middleware/databaseActions/delete");
 
 router.post(
   "/",
@@ -21,7 +23,17 @@ router.post(
   }
 );
 
+router.put(
+  "/",
+    [auth, isIntakeCoordinator, validate(validateReturn), update(model)],
+    async (req, res) => {
+      res.send(req.data);
+    }
+  );
 
+  router.delete("/:id",[auth, isIntakeCoordinator, _delete()],async (req, res) => {
+    res.send(req.data);
+});
 
 router.get("/:id", [auth, isIntakeCoordinator], async (req, res) => {
 let resID = req.params.id;

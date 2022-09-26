@@ -22,7 +22,7 @@ function validate(req) {
     ID: Joi.string(),
     ResID: Joi.string().required(),
     DrugOfChoice: Joi.string().required().max(30),
-    LastDateOfUse: Joi.date().required(),
+    LastDateOfUse: Joi.date(),
     MethodOfUse: Joi.string().max(30),
     UseComment: Joi.string().max(50),
     PrimaryDrugOfChoice: Joi.boolean(),

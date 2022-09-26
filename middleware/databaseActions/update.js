@@ -1,19 +1,18 @@
 const db = require("../../startup/database");
 const sql = require("mssql");
-const uniqid = require("uniqid");
 
 let tables = [
-  { name: "ResProfile", path: "basic" },
-  { name: "ResContacts", path: "contacts" },
-  { name: "ResDrugInfo", path: "drug" },
-  { name: "ResEducationInfo", path: "education" },
-  { name: "ResEmployment", path: "employment" },
-  { name: "ResNotes", path: "notes" },
-  { name: "ResFamily", path: "family" },
-  { name: "ResFinance", path: "finance" },
-  { name: "ResLegalCases", path: "legal" },
-  { name: "ResMedicalInfo", path: "medical" },
-  { name: "ResMedicationInfo", path: "medication" },
+  { name: "ResProfile", path: "basic",id : "ResID" },
+  { name: "ResContacts", path: "contacts",id : "ID" },
+  { name: "ResDrugInfo", path: "drug",id : "ID" },
+  { name: "ResEducationInfo", path: "education",id : "ID" },
+  { name: "ResEmployment", path: "employment",id : "ID" },
+  { name: "ResNotes", path: "notes",id : "ID" },
+  { name: "ResFamily", path: "family",id : "ID" },
+  { name: "ResFinance", path: "finance",id : "ID" },
+  { name: "ResLegalCases", path: "legal",id : "ID" },
+  { name: "ResMedicalInfo", path: "medical",id : "ID" },
+  { name: "ResMedicationInfo", path: "medication",id : "ID" },
   { name: "ResAdmission", path: "admission", id : "AdmissionID" },
 ];
 
