@@ -28,7 +28,9 @@ function model(data) {
     { key: "CivilSuit", value: data.CivilSuit, type: "Bit" },
     { key: "CustodySuit", value: data.CustodySuit, type: "Bit" },
     { key: "OnProbation", value: data.OnProbation, type: "Bit" },
-    { key: "ParoleCounty", value: data.ParoleCounty, type: "VarChar" },
+    { key: "ProbationOfficer", value: data.ProbationOfficer, type: "VarChar" },
+    { key: "Contact", value: data.Contact, type: "VarChar" },
+    { key: "ProbationCounty", value: data.ParoleCounty, type: "VarChar" },
     {
       key: "CommunityServiceRqd",
       value: data.CommunityServiceRqd,
@@ -44,6 +46,7 @@ function model(data) {
     { key: "WarrantDate", value: data.WarrantDate, type: "Date" },
     { key: "WarrantCounty", value: data.WarrantCounty, type: "VarChar" },
     { key: "WarrantState", value: data.WarrantState, type: "VarChar" },
+    { key: "ParoleState", value: data.ParoleState, type: "VarChar" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -68,7 +71,9 @@ function validate(req) {
     CivilSuit: Joi.boolean(),
     CustodySuit: Joi.boolean(),
     OnProbation: Joi.boolean(),
-    ParoleCounty: Joi.string().max(50),
+    ProbationOfficer : Joi.string(),
+    Contact : Joi.string(),
+    ProbationCounty: Joi.string().max(50),
     CommunityServiceRqd: Joi.boolean(),
     RestitutionFinesRqd: Joi.boolean(),
     NeedCourtApproval: Joi.boolean(),
@@ -76,6 +81,7 @@ function validate(req) {
     WarrantDate: Joi.date(),
     WarrantCounty: Joi.string().max(50),
     WarrantState: Joi.string().max(50),
+    ParoleState: Joi.string().max(50),
   });
   return schema.validate(req.body);
 }

@@ -33,8 +33,8 @@ router.use("/medication", medication);
 router.use("/notes", notes);
 
 router.get("/", auth, async (req, res) => {
-  let {query} = req.query;
-  console.log(query);
+  let { query, active } = req.query;
+  console.log(query, active);
   try {
     const pool = await db();
     //@ts-ignore
@@ -44,10 +44,22 @@ router.get("/", auth, async (req, res) => {
       poolRequest.input("query", sql.VarChar, query);
     }
 
-    let string = `SELECT * from ResProfile ${query && "where (ssn = @query or ResFirstName like @query or ResLastName like @query)"}`;
+    let string = `SELECT * from ResProfile ${query ?"where (ssn = @query or ResFirstName like @query or ResLastName like @query)" : ""}`;
+    switch (active) {
+      case "2":
+        poolRequest.input("active", sql.Bit, true);
+        string = string + (query ? " and" : " where")
+        string = `${string} IsActive=@active`;
+        break;
+        case "3":
+          poolRequest.input("active", sql.Bit, false);
+          string = string + (query ? " and" : " where")
+        string = `${string} IsActive=@active`;
+        break;
+    }
     console.log(string);
     const data = await poolRequest.query(string);
-    console.log(data)
+    console.log(data);
     res.send(data.recordset);
   } catch (error) {
     console.log(error);
@@ -63,7 +75,8 @@ router.get("/:id", auth, async (req, res) => {
     let string = `SELECT * from ResProfile where ResID = @ResID`;
     const pool = await db();
     //@ts-ignore
-    const data = await pool.request()
+    const data = await pool
+      .request()
       .input("ResID", sql.NVarChar, resID)
       .query(string);
 
