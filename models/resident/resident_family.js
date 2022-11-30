@@ -6,6 +6,7 @@ function model(data) {
     { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "PartnerContactID", value: data.PartnerContactID, type: "VarChar" },
     { key: "PartnerName", value: data.PartnerName, type: "VarChar" },
+    { key: "CustodyOfChild", value: data.CustodyOfChild, type: "VarChar" },
     {
       key: "ChildName",
       value: data.ChildName,
@@ -26,6 +27,7 @@ function validate(req) {
     ResID: Joi.string().required(),
     PartnerContactID: Joi.string().max(30),
     PartnerName: Joi.string().max(50),
+    CustodyOfChild: Joi.string(),
     ChildDob: Joi.date(),
     ChildInHouseFlag: Joi.boolean(),
     HasChildSupport: Joi.boolean(),

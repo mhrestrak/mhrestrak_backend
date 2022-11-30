@@ -1,4 +1,8 @@
 const express = require("express");
+const sql = require("mssql");
+
+const db = require("../../startup/database");
+
 const {
   model,
   validate: validateReturn,
@@ -16,5 +20,21 @@ router.post(
     res.send(req.data);
   }
 );
+
+router.get("/:id", [auth, isIntakeCoordinator], async (req, res) => {
+  let resID = req.params.id;
+  try {
+    const pool = await db();
+    //@ts-ignore
+    const poolRequest = await pool.request();
+    poolRequest.input("ResId", sql.VarChar, resID);
+    let query = `SELECT * from ResNotes WHERE ResId=@ResId`;
+    let data = await poolRequest.query(query);
+    return res.send(data.recordset);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("Failed Database connection");
+  }
+});
 
 module.exports = router;

@@ -3,6 +3,7 @@ const Joi = require("joi");
 function model(data) {
   let array = [
     { key: "ResID", value: data.ResID, type: "VarChar" },
+    { key: "PhaseData", value: data.PhaseData, type: "VarChar" },
     { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" },
     { key: "GuestInDate", value: data.GuestInDate, type: "Date" },
     {
@@ -86,6 +87,7 @@ function model(data) {
 function validate(req) {
   const schema = Joi.object({
     ResID: Joi.string().required(),
+    PhaseData : Joi.string().required(),
     AdmissionID: Joi.string().max(30),
     GuestInDate: Joi.date(),
     TreatmentCenterListID: Joi.string().max(30).optional().allow(""),

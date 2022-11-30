@@ -13,7 +13,6 @@ function model(data) {
       value: data.MedicalRestrictions,
       type: "VarChar",
     },
-    { key: "DoctorContactID", value: data.DoctorContactID, type: "VarChar" },
     { key: "DentistContactID", value: data.DentistContactID, type: "VarChar" },
     {
       key: "OpticialContactID",
@@ -46,7 +45,6 @@ function validate(req) {
     DoctorContactID: Joi.string().max(1024),
     MedicationId: Joi.string().max(1024),
     MedicalRestrictions: Joi.string().max(1024),
-    DoctorContactID: Joi.string().max(50),
     DentistContactID: Joi.string().max(50),
     OpticialContactID: Joi.string().max(50),
     TherapistContactID: Joi.string().max(50),

@@ -18,6 +18,7 @@ router.post(
   "/",
   [auth, isIntakeCoordinator, validate(validateReturn), create(model)],
   async (req, res) => {
+    console.log("fdfdf")
     /// Updating active flag
     console.log(req.data)
     const pool = await db();
