@@ -3,5 +3,6 @@
   "db": "mhrestrak_db",
   "dbServer": "mhrestrak_dbServer",
   "dbUser": "mhrestrak_dbUser",
-  "dbPassword": "mhrestrak_dbPassword"
+  "dbPassword": "mhrestrak_dbPassword",
+  "QUOTAGUARDSTATIC_URL" :"QUOTAGUARDSTATIC_URL"
 }

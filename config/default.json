@@ -3,5 +3,6 @@
   "dbServer": "",
   "dbUser": "",
   "dbPassword": "",
-  "db": ""
+  "db": "",
+  "QUOTAGUARDSTATIC_URL" : ""
 }
