@@ -15,6 +15,7 @@ module.exports = async function () {
   const agent = new HttpProxyAgent(process.env.QUOTAGUARDSTATIC_URL);
 
   try {
+    // @ts-ignore
     let pool = new sql.ConnectionPool({
       server: config.get("dbServer"),
       user: config.get("dbUser"),
@@ -22,12 +23,11 @@ module.exports = async function () {
       database: config.get("db"),
       options : {
         encrypt : true,
-        agent
+        agent: agent
       }
     });
-    pool = await pool.connect()
-    console.log("Connection established.");
-    return pool;
+    await pool.connect()
+    return new sql.Request(pool)
   } catch (err) {
     console.log("Connection Failed!!!");
     console.log(err);

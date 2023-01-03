@@ -14,9 +14,8 @@ router.post("/", async (req, res) => {
   let user;
 
   try {
-    const pool = await db();
-    user = await pool
-      .request()
+    const request = await db();
+    user = await request
       .input("email", sql.VarChar, req.body.email)
       .query("SELECT * from Users where email = @email");
     user = user.recordset;
