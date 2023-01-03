@@ -4,5 +4,7 @@
   "dbServer": "mhrestrak_dbServer",
   "dbUser": "mhrestrak_dbUser",
   "dbPassword": "mhrestrak_dbPassword",
+  "AWS_SECRET_ACCESS_KEY" : "mhrestrak_aws_secret_access_key",
+  "AWS_ACCESS_KEY_ID":"mhrestrak_aws_access_key_id",
   "QUOTAGUARDSTATIC_URL" :"QUOTAGUARDSTATIC_URL"
 }
