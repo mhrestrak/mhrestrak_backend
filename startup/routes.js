@@ -5,6 +5,7 @@ const auth = require("../routes/auth");
 const resident = require("../routes/resident");
 const lists = require("../routes/lists");
 const test = require("../routes/test");
+const resources = require("../routes/resources");
 // const error = require("../middleware/error");
 
 module.exports = function (app) {
@@ -16,6 +17,7 @@ module.exports = function (app) {
   app.use("/api/test", test);
   app.use("/api/resident", resident);
   app.use("/api/lists", lists);
+  app.use("/api/resources", resources);
   //--------------------Request pipeline Error handeling---------------------
   //   app.use(error);
 };
