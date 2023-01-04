@@ -2,6 +2,7 @@ const express = require("express");
 const sql = require("mssql");
 
 const auth = require("../middleware/auth");
+const { generateObjectUrl } = require("../services/aws");
 const db = require("../startup/database");
 
 const admission = require("./resident/admission");
@@ -81,10 +82,15 @@ router.get("/:id", auth, async (req, res) => {
       .query(string);
 
     if (!data.recordset) return res.status(404).send("Invalid Request!");
-
     if (data.recordset.length === 0)
-      return res.status(404).send("Resident does not exist.");
+    return res.status(404).send("Resident does not exist.");
+    let resident = data.recordset[0]
 
+    if(resident.ResPictureKey){
+      if(resident.ResPictureKey.startsWith("ImgKey_")){
+        resident.ResPictureKey = generateObjectUrl(resident.ResPictureKey)
+      }
+    }
     res.send(data.recordset[0]);
   } catch (error) {
     console.log(error);

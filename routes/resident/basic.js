@@ -14,6 +14,7 @@ const isIntakeCoordinator = require("../../middleware/isIntakeCoordinator");
 const create = require("../../middleware/databaseActions/create");
 const { date } = require("joi");
 const getItemById = require("../../utils/db_get");
+const { generateObjectUrl } = require("../../services/aws");
 
 router.post(
   "/",
@@ -173,8 +174,14 @@ router.post(
     const data1 = await pool.request()
       .input("ResID", sql.NVarChar, body["ResID"])
       .query(string);
+      const resident = data1.recordset[0]
+      if(resident?.ResPictureKey){
+        if(resident.ResPictureKey.startsWith("ImgKey_")){
+          resident.ResPictureKey = generateObjectUrl(resident.ResPictureKey)
+        }
+      }
 
-    res.send(data1.recordset[0]);
+    res.send(resident);
     // } catch (error) {
     //   console.log(error);
     //   res.status(400).send(error);
