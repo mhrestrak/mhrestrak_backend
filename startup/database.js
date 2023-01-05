@@ -21,7 +21,6 @@ module.exports = async function () {
   //-----------------------connecting mongo db---------------------------
   try {
     const pool = new sql.ConnectionPool(DbConfig)
-    await pool.connect();
     console.log("Connection established.");
     return pool;
   } catch (err) {
