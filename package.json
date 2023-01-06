@@ -4,9 +4,12 @@
   "description": "Backend for the MH ResTrak Application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js"
   },
+    "jest": {
+      "testMatch": ["**/tests/my-test-file.test.js"]
+    },
   "author": "Joshua Fernandes",
   "license": "ISC",
   "dependencies": {
@@ -28,5 +31,8 @@
     "mysql": "^2.18.1",
     "node-pre-gyp": "^0.17.0",
     "uniqid": "^5.3.0"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }
