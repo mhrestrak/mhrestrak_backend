@@ -128,8 +128,8 @@ function validate(req) {
     UnresolvedIssues : Joi.string().max(30),
     ReadmitConditions : Joi.string().max(30),
     ExitNotes : Joi.string().max(200),
-    TimesCompletedTreatment : Joi.number(),
-    PreviousInpatientAttempts:  Joi.number()
+    TimesCompletedTreatment : Joi.string(),
+    PreviousInpatientAttempts:  Joi.string()
   });
   return schema.validate(req.body);
 }
