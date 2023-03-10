@@ -83,12 +83,12 @@ function model(data) {
     {
       key: "TimesCompletedTreatment",
       value: data.TimesCompletedTreatment,
-      type: "Int"
+      type: "VarChar"
     },
     {
       key: "PreviousInpatientAttempts",
       value: data.PreviousInpatientAttempts,
-      type: "Int"
+      type: "VarChar"
     },
   ];
   return array.filter((Item) => Item.value !== undefined);
