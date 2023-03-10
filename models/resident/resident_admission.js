@@ -80,6 +80,16 @@ function model(data) {
       value: data.ExitNotes,
       type: "VarChar",
     },
+    {
+      key: "TimesCompletedTreatment",
+      value: data.TimesCompletedTreatment,
+      type: "VarChar"
+    },
+    {
+      key: "PreviousInpatientAttempts",
+      value: data.PreviousInpatientAttempts,
+      type: "VarChar"
+    },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -118,6 +128,8 @@ function validate(req) {
     UnresolvedIssues : Joi.string().max(30),
     ReadmitConditions : Joi.string().max(30),
     ExitNotes : Joi.string().max(200),
+    TimesCompletedTreatment : Joi.string(),
+    PreviousInpatientAttempts:  Joi.string()
   });
   return schema.validate(req.body);
 }
