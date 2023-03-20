@@ -18,6 +18,6 @@ module.exports = function (app) {
   app.use("/api/resident", resident);
   app.use("/api/lists", lists);
   app.use("/api/resources", resources);
-  //--------------------Request pipeline Error handeling---------------------
+  //--------------------Request pipeline Erdror handeling---------------------
   //   app.use(error);
 };
