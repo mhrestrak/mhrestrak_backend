@@ -24,7 +24,7 @@ router.post(
 
 
 
-router.get("/:id", [auth, isIntakeCoordinator], async (req, res) => {
+router.get("/:id", [auth], async (req, res) => {
 let resID = req.params.id;
 try {
   const pool = await db();

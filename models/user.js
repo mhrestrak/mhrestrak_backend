@@ -2,6 +2,26 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
+
+function model(data) {
+  let array = [
+    { key: "_id", value: data._id, type: "VarChar" },
+    { key: "firstName", value: data.firstName, type: "VarChar" },
+    { key: "lastName", value: data.lastName, type: "VarChar" },
+    { key: "pass", value: data.pass, type: "VarChar" },
+    { key: "email", value: data.email, type: "VarChar" },
+    { key: "Center", value: data.Center, type: "VarChar" },
+    { key: "isAdmin", value: data.isAdmin, type: "Bit" },
+    { key: "isIntakeCoordinator", value: data.isIntakeCoordinator, type: "Bit" },
+    { key: "isHouseManager", value: data.isHouseManager, type: "Bit" },
+    { key: "isCaseCoordinator", value: data.isCaseCoordinator, type: "Bit" },
+    { key: "isCenterCoordinator", value: data.isCenterCoordinator, type: "Bit" },
+    { key: "invitePending", value: data.invitePending, type: "Bit" },
+    { key: "isActive", value: data.isActive, type: "Bit" },
+  ];
+  return array.filter((Item) => Item.value !== undefined);
+}
+
 function token(user) {
   return jwt.sign(
     {
@@ -11,6 +31,11 @@ function token(user) {
       email: user.email,
       isAdmin: user.isAdmin,
       isIntakeCoordinator: user.isIntakeCoordinator,
+      isHouseManager: user.isHouseManager,
+      isCaseCoordinator: user.isCaseCoordinator,
+      isCenterCoordinator: user.isCenterCoordinator,
+      invitePending: user.invitePending,
+      isActive: user.isActive,
       Center: user.Center,
     },
     config.get("jwtPrivateKey")
@@ -25,6 +50,11 @@ function validate(req) {
     pass: Joi.string().required().min(5).max(255),
     isAdmin: Joi.boolean(),
     isIntakeCoordinator: Joi.boolean(),
+    isHouseManager : Joi.boolean(),
+    isCaseCoordinator : Joi.boolean(),
+    isCenterCoordinator : Joi.boolean(),
+    invitePending : Joi.boolean(),
+    isActive : Joi.boolean(),
     Center: Joi.string().required().max(50).min(5),
   });
   return schema.validate(req);
@@ -32,6 +62,7 @@ function validate(req) {
 
 exports.userToken = token;
 exports.validate = validate;
+exports.model = model;
 
 // const userSchema = mongoose.Schema({
 //   name: {

@@ -7,6 +7,10 @@ const auth = require("../middleware/auth");
 const db = require("../startup/database");
 const sql = require("mssql");
 const uniqid = require("uniqid");
+const userAdmin = require("./user_admin");
+
+
+router.use("/admin", userAdmin);
 
 router.get("/me", auth, async (req, res) => {
   try {
@@ -79,5 +83,6 @@ router.post("/", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
+
 
 module.exports = router;

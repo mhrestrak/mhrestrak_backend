@@ -4,5 +4,6 @@
   "dbUser": "",
   "dbPassword": "",
   "db": "",
+  "frontendUrl" : "http://localhost:3000",
   "QUOTAGUARDSTATIC_URL" : ""
 }

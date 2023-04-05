@@ -61,6 +61,10 @@ router.get("/", auth, async (req, res) => {
     console.log(string);
     const data = await poolRequest.query(string);
     console.log(data);
+    if(!req.user.isAdmin){
+      let filtered = data.recordset.filter((resident) => resident.Center === req.user.Center)
+      return res.send(filtered);
+    }
     res.send(data.recordset);
   } catch (error) {
     console.log(error);

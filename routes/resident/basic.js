@@ -24,7 +24,7 @@ router.post(
   }
 );
 
-router.get("/active", [auth, isIntakeCoordinator], async (req, res) => {
+router.get("/active", [auth], async (req, res) => {
   let query = `SELECT * from ResProfile WHERE IsActive=1`;
   const pool = await db();
   //@ts-ignore

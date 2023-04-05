@@ -62,7 +62,7 @@ router.post(
   }
 );
 
-router.get("/:id",[auth, isIntakeCoordinator],
+router.get("/:id",[auth],
   async (req, res) => {
     let resID = req.params.id;
     if (!resID) return res.status(404).send("Please provide a Resident ID!");
