@@ -14,10 +14,13 @@ const router = express.Router();
 const sql = require("mssql");
 const db = require("../../startup/database");
 const _delete = require("../../middleware/databaseActions/delete");
+const level2Access = require("../../middleware/level2Access");
+const level3Access = require("../../middleware/level3Access");
+const level1Access = require("../../middleware/level1Access");
 
 router.post(
   "/",
-  [auth, isIntakeCoordinator, validate(validateReturn), create(model)],
+  [auth, level2Access, validate(validateReturn), create(model)],
   (req, res) => {
     res.send(req.data);
   }
@@ -25,17 +28,17 @@ router.post(
 
 router.put(
 "/",
-  [auth, isIntakeCoordinator, validate(validateReturn), update(model)],
+  [auth, level3Access, validate(validateReturn), update(model)],
   async (req, res) => {
     res.send(req.data);
   }
 );
 
-router.delete("/:id",[auth, isIntakeCoordinator, _delete()],async (req, res) => {
+router.delete("/:id",[auth, level3Access, _delete()],async (req, res) => {
     res.send(req.data);
 });
 
-router.get("/:id", [auth], async (req, res) => {
+router.get("/:id", [auth, level1Access], async (req, res) => {
 let resID = req.params.id;
 try {
   const pool = await db();

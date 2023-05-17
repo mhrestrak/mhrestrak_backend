@@ -9,8 +9,9 @@ const db = require("../startup/database");
 const sql = require("mssql");
 const { sendEmail } = require("../services/sendgrid");
 const config = require("config");
+const level5Access = require("../middleware/level5Access");
 
-router.get("/status/:id", async (req, res) => {
+router.get("/status/:id", [auth],async (req, res) => {
   let userId = req.params.id;
   try {
     const pool = await db();
@@ -35,7 +36,7 @@ router.get("/status/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", [auth, admin], async (req, res) => {
+router.get("/:id", [auth, level5Access], async (req, res) => {
   let userId = req.params.id;
   try {
     const pool = await db();
@@ -56,7 +57,7 @@ router.get("/:id", [auth, admin], async (req, res) => {
   }
 });
 
-router.post("/getUsers", [auth, admin], async (req, res) => {
+router.post("/getUsers", [auth, level5Access], async (req, res) => {
   console.log(req.body, 1);
   let filters = req.body;
   try {
@@ -130,7 +131,7 @@ router.post("/getUsers", [auth, admin], async (req, res) => {
   }
 });
 
-router.post("/inviteUser", [auth, admin], async (req, res) => {
+router.post("/inviteUser", [auth, level5Access], async (req, res) => {
   
   let body = req.body;
   body.isActive = false;
@@ -190,7 +191,7 @@ router.post("/inviteUser", [auth, admin], async (req, res) => {
   }
 });
 
-router.put("/updateUser", [auth, admin], async (req, res) => {
+router.put("/updateUser", [auth, level5Access], async (req, res) => {
   let body = req.body;
   const pool = await db();
   let data;

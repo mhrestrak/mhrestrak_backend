@@ -17,6 +17,7 @@ const legal = require("./resident/legal");
 const medical = require("./resident/medical");
 const medication = require("./resident/medication");
 const notes = require("./resident/notes");
+const level1Access = require("../middleware/level1Access");
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ router.use("/medical", medical);
 router.use("/medication", medication);
 router.use("/notes", notes);
 
-router.get("/", auth, async (req, res) => {
+router.get("/", [auth, level1Access], async (req, res) => {
   let { query, active } = req.query;
   console.log(query, active);
   try {
@@ -72,7 +73,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", [auth, level1Access], async (req, res) => {
   let resID = req.params.id;
   if (!resID) return res.status(404).send("Please provide a Resident ID!");
 

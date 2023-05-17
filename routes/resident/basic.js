@@ -15,16 +15,20 @@ const create = require("../../middleware/databaseActions/create");
 const { date } = require("joi");
 const getItemById = require("../../utils/db_get");
 const { generateObjectUrl } = require("../../services/aws");
+const level2Access = require("../../middleware/level2Access");
+const level1Access = require("../../middleware/level1Access");
+const level4Access = require("../../middleware/level4Access");
+const level3Access = require("../../middleware/level3Access");
 
 router.post(
   "/",
-  [auth, isIntakeCoordinator, validate(validateReturn), create(model)],
+  [auth, level2Access, validate(validateReturn), create(model)],
   (req, res) => {
     res.send(req.data);
   }
 );
 
-router.get("/active", [auth], async (req, res) => {
+router.get("/active", [auth, level1Access], async (req, res) => {
   let query = `SELECT * from ResProfile WHERE IsActive=1`;
   const pool = await db();
   //@ts-ignore
@@ -33,7 +37,7 @@ router.get("/active", [auth], async (req, res) => {
   return res.send(data);
 });
 
-router.post("/DL_Report", [auth, isIntakeCoordinator], async (req, res) => {
+router.post("/DL_Report", [auth, level4Access], async (req, res) => {
   console.log("dfdfdfdf")
   let body = req.body;
   const startDate = body.startDate
@@ -87,7 +91,7 @@ router.post("/DL_Report", [auth, isIntakeCoordinator], async (req, res) => {
 
 router.post(
   "/update",
-  [auth, isIntakeCoordinator, validate(validateUpdate)],
+  [auth, level3Access, validate(validateUpdate)],
   async (req, res) => {
     let body = req.body;
     const pool = await db();
@@ -189,7 +193,7 @@ router.post(
   }
 );
 
-router.post("/phaseUpdate", [auth, isIntakeCoordinator], async (req, res) => {
+router.post("/phaseUpdate", [auth, level3Access], async (req, res) => {
     let body = req.body;
     const ResID = body.ResID
     const phaseData = body.phaseData

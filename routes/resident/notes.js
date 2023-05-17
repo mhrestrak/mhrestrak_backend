@@ -12,16 +12,17 @@ const auth = require("../../middleware/auth");
 const validate = require("../../middleware/validate");
 const isIntakeCoordinator = require("../../middleware/isIntakeCoordinator");
 const create = require("../../middleware/databaseActions/create");
+const level1Access = require("../../middleware/level1Access");
 
 router.post(
   "/",
-  [auth, validate(validateReturn), create(model)],
+  [auth, level1Access,validate(validateReturn), create(model)],
   (req, res) => {
     res.send(req.data);
   }
 );
 
-router.get("/:id", [auth], async (req, res) => {
+router.get("/:id", [auth, level1Access], async (req, res) => {
   let resID = req.params.id;
   try {
     const pool = await db();

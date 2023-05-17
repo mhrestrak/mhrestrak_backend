@@ -13,10 +13,12 @@ const getItemById = require("../../utils/db_get")
 
 const db = require("../../startup/database");
 const sql = require("mssql");
+const level3Access = require("../../middleware/level3Access");
+const level1Access = require("../../middleware/level1Access");
 
 router.post(
   "/",
-  [auth, isIntakeCoordinator, validate(validateReturn), create(model)],
+  [auth, level3Access, validate(validateReturn), create(model)],
   async (req, res) => {
     console.log("fdfdf")
     /// Updating active flag
@@ -41,7 +43,7 @@ router.post(
 
 router.post(
   "/exit",
-  [auth, isIntakeCoordinator, validate(validateReturn), update(model)],
+  [auth, level3Access, validate(validateReturn), update(model)],
   async (req, res) => {
     /// Updating active flag
     console.log(req.body)
@@ -62,7 +64,7 @@ router.post(
   }
 );
 
-router.get("/:id",[auth],
+router.get("/:id",[auth, level1Access],
   async (req, res) => {
     let resID = req.params.id;
     if (!resID) return res.status(404).send("Please provide a Resident ID!");

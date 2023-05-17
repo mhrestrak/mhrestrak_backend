@@ -13,10 +13,12 @@ const router = express.Router();
 
 const sql = require("mssql");
 const db = require("../../startup/database");
+const level2Access = require("../../middleware/level2Access");
+const level1Access = require("../../middleware/level1Access");
 
 router.post(
   "/",
-  [auth, isIntakeCoordinator, validate(validateReturn), create(model)],
+  [auth, level2Access, validate(validateReturn), create(model)],
   (req, res) => {
     res.send(req.data);
   }
@@ -24,7 +26,7 @@ router.post(
 
 
 
-router.get("/:id", [auth], async (req, res) => {
+router.get("/:id", [auth, level1Access], async (req, res) => {
 let resID = req.params.id;
 try {
   const pool = await db();
