@@ -39,6 +39,52 @@ router.post("/", async (req, res) => {
   res.send(token);
 });
 
+router.post("/resetPassword", [auth], async (req, res) => {
+  if (!req.body.password) return res.status(400).send("Enter Password!");
+  let body = req.body
+  const pool = await db();
+
+  const salt = await bcrypt.genSalt(10);
+  body.password = await bcrypt.hash(body.password, salt);
+
+  try{
+
+  let um = {
+    pass : body.password,
+  }
+
+  let updatedModel = model(um);
+  let query = `UPDATE Users SET `;
+  //@ts-ignore
+  let poolRequest = await pool.request();
+
+  updatedModel.forEach((Item, i) => {
+    if (i === 0) {
+      query = query + `${Item.key}=@${Item.key}`;
+    } else {
+      query = query + `, ${Item.key}=@${Item.key}`;
+    }
+    poolRequest.input(Item.key, sql[Item.type], Item.value);
+  });
+
+  query = query + ` WHERE _id='${req.user["_id"]}'`;
+
+  await poolRequest.query(query);
+
+  let user = await pool
+    .request()
+    .input("email", sql.VarChar, req.body.email)
+    .query(`SELECT * from Users  WHERE _id='${body["_id"]}'`);
+  user = user.recordset;
+  res.send(user[0]);
+    //@ts-ignore
+    // pool.close();
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send(error);
+  }
+});
+
 router.put("/updateProfile", [auth], async (req, res) => {
   if (req.user._id !== req.body?._id)
     return res.status(400).send("Restricted!");

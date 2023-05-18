@@ -6,6 +6,7 @@ const resident = require("../routes/resident");
 const lists = require("../routes/lists");
 const test = require("../routes/test");
 const resources = require("../routes/resources");
+const verify = require("../routes/route_EmailVerification");
 const centers = require("../routes/centers");
 // const error = require("../middleware/error");
 
@@ -19,6 +20,7 @@ module.exports = function (app) {
   app.use("/api/resident", resident);
   app.use("/api/lists", lists);
   app.use("/api/resources", resources);
+  app.use("/api/verify", verify);
   app.use("/api/centers", centers);
   //--------------------Request pipeline Error handeling---------------------
   //   app.use(error);

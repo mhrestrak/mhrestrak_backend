@@ -7,6 +7,9 @@
   "AWS_SECRET_ACCESS_KEY" : "mhrestrak_aws_secret_access_key",
   "AWS_ACCESS_KEY_ID":"mhrestrak_aws_access_key_id",
   "sendgridApiKey" : "mhrestrak_sendgridKey",
+  "TWILIO_ACCOUNT_SID" : "mhrestrak_TWILIO_ACCOUNT_SID",
+  "TWILIO_AUTH_TOKEN" : "mhrestrak_TWILIO_AUTH_TOKEN",
+  "Twillio_Email_Verification" : "mhrestrak_Email_verification_serviceId",
   "invitationTemplateId": "mhrestrak_templateId",
   "frontendUrl" : "mhrestrak_frontendUrl",
   "FIXIE_URL" :"FIXIE_URL"
