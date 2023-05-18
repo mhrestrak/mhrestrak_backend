@@ -9,6 +9,7 @@ const { userToken, model } = require("../models/user");
 const auth = require("../middleware/auth");
 
 router.post("/", async (req, res) => {
+  //@ts-ignore
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -16,8 +17,8 @@ router.post("/", async (req, res) => {
 
   try {
     const pool = await db();
-    user = await pool
-      .request()
+    //@ts-ignore
+  user = await pool.request()
       .input("email", sql.VarChar, req.body.email)
       .query("SELECT * from Users where email = @email");
     user = user.recordset;
@@ -71,8 +72,8 @@ router.post("/resetPassword", [auth], async (req, res) => {
 
   await poolRequest.query(query);
 
-  let user = await pool
-    .request()
+  //@ts-ignore
+  let user = await pool.request()
     .input("email", sql.VarChar, req.body.email)
     .query(`SELECT * from Users  WHERE _id='${body["_id"]}'`);
   user = user.recordset;
@@ -123,8 +124,8 @@ router.put("/updateProfile", [auth], async (req, res) => {
     console.log(query);
     data = await poolRequest.query(query);
 
-    let user = await pool
-      .request()
+    //@ts-ignore
+  let user = await pool.request()
       .input("email", sql.VarChar, req.body.email)
       .query(`SELECT * from Users  WHERE _id='${body["_id"]}'`);
     user = user.recordset;
@@ -174,8 +175,8 @@ router.put("/activateUser", async (req, res) => {
 
     data = await poolRequest.query(query);
 
-    let user = await pool
-      .request()
+    //@ts-ignore
+  let user = await pool.request()
       .input("email", sql.VarChar, req.body.email)
       .query(`SELECT * from Users  WHERE _id='${body["_id"]}'`);
     user = user.recordset;

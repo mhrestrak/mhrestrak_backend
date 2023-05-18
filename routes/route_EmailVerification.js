@@ -12,8 +12,8 @@ router.post("/getCode", async (req, res) => {
   let user;
   try {
     const pool = await db();
-    user = await pool
-      .request()
+    //@ts-ignore
+    user = await pool.request()
       .input("email", sql.VarChar, req.body.email)
       .query("SELECT * from Users where email = @email");
   } catch (error) {
@@ -35,27 +35,27 @@ router.post("/getCode", async (req, res) => {
 router.post("/verifyCode", async (req, res) => {
   if (!req.body.email || !req.body.code)
     return res.status(404).send("Provide Email or code...");
-    let user
-    try {
-      const pool = await db();
-      user = await pool
-        .request()
-        .input("email", sql.VarChar, req.body.email)
-        .query("SELECT * from Users where email = @email");
-    } catch (error) {
-      console.log("error", error);
-      return res.status(400).send(error);
-    }
-  
-    if (user.recordset.length === 0)
-      return res.send({ error: "Email Not Registered!" });
+  let user;
+  try {
+    const pool = await db();
+    //@ts-ignore
+    user = await pool.request()
+      .input("email", sql.VarChar, req.body.email)
+      .query("SELECT * from Users where email = @email");
+  } catch (error) {
+    console.log("error", error);
+    return res.status(400).send(error);
+  }
 
-      
+  if (user.recordset.length === 0)
+    return res.send({ error: "Email Not Registered!" });
+
   try {
     let verification = await verifyCode(req.body.email, req.body.code);
-    console.log(verification)
-    if(verification.status === "approved") verification["jwt"] = userToken(user.recordset[0]);
-    console.log(verification)
+    console.log(verification);
+    if (verification.status === "approved")
+      verification["jwt"] = userToken(user.recordset[0]);
+    console.log(verification);
     res.send(verification);
   } catch (error) {
     res.status(400).send(error.message);

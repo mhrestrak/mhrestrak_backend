@@ -9,6 +9,7 @@ async function sendEmail(data) {
     template_id: config.get("invitationTemplateId"),
     dynamic_template_data: data.variables,
   };
+  //@ts-ignore
   await sgMail.send(msg);
   return true;
 }

@@ -15,8 +15,9 @@ router.use("/admin", userAdmin);
 router.get("/me", auth, async (req, res) => {
   try {
     const pool = db();
-    const user = await pool
-      .request()
+    //@ts-ignore
+    const user = await pool.request()
+      //@ts-ignore
       .input("_id", sql.VarChar, req.user._id)
       .query("SELECT * from Users where _id = @_id");
     res.send(user);

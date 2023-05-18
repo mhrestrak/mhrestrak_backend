@@ -64,6 +64,7 @@ router.post("/getUsers", [auth, level4Access], async (req, res) => {
   try {
     const pool = await db();
 
+    //@ts-ignore
     const poolRequest = await pool.request();
 
     let query = "SELECT * from Users";
@@ -149,6 +150,7 @@ router.post("/inviteUser", [auth, level4Access], async (req, res) => {
     let updatedModel = model(body);
     let string = `INSERT INTO Users (`;
     const pool = await db();
+    //@ts-ignore
     let poolRequest = await pool.request();
 
     updatedModel.forEach((Item, i) => {
@@ -226,6 +228,7 @@ router.put("/updateUser", [auth, level4Access], async (req, res) => {
 
 async function getUsers() {
   const pool = await db();
+  //@ts-ignore
   const poolRequest = await pool.request();
   let query = "SELECT * from Users";
   const data = await poolRequest.query(query);

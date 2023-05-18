@@ -9,8 +9,8 @@ const sql = require("mssql");
 router.get("/", [auth], async (req, res) => {
     try {
         const pool = await db();
-        const data = await pool
-          .request()
+        //@ts-ignore
+        const data = await pool.request()
           .query("SELECT * from Centers");
         res.send(data.recordset);
       } catch (error) {

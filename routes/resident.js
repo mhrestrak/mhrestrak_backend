@@ -81,8 +81,7 @@ router.get("/:id", [auth, level1Access], async (req, res) => {
     let string = `SELECT * from ResProfile where ResID = @ResID`;
     const pool = await db();
     //@ts-ignore
-    const data = await pool
-      .request()
+  const data = await pool.request()
       .input("ResID", sql.NVarChar, resID)
       .query(string);
 
