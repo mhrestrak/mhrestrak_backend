@@ -28,13 +28,13 @@ router.post("/", async (req, res) => {
   }
 
   if (user.length === 0)
-    return res.status(400).send("Invalid Email or password..");
+    return res.status(401).send("Email not Found!");
   console.log(req.body.pass);
   console.log(user);
   const validPassword = await bcrypt.compare(req.body.pass, user[0].pass);
   console.log(validPassword);
   if (!validPassword)
-    return res.status(400).send("Invalid Email or password..");
+    return res.status(401).send("Incorrect Password!");
 
   const token = userToken(user[0]);
   res.send(token);
