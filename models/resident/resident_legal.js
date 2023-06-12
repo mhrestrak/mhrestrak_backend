@@ -78,7 +78,7 @@ function validate(req) {
     RestitutionFinesRqd: Joi.boolean(),
     NeedCourtApproval: Joi.boolean(),
     ActiveWarrant: Joi.boolean(),
-    WarrantDate: Joi.date(),
+    WarrantDate: Joi.date().allow(null),
     WarrantCounty: Joi.string().max(50),
     WarrantState: Joi.string().max(50),
     ParoleState: Joi.string().max(50),

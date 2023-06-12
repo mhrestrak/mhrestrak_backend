@@ -28,7 +28,7 @@ function validate(req) {
     PartnerContactID: Joi.string().max(30),
     PartnerName: Joi.string().max(50),
     CustodyOfChild: Joi.string(),
-    ChildDob: Joi.date(),
+    ChildDob: Joi.date().allow(null),
     ChildInHouseFlag: Joi.boolean(),
     HasChildSupport: Joi.boolean(),
     PaysChildSupport: Joi.boolean(),
