@@ -88,7 +88,7 @@ function validate(req) {
     OnSSISSD: Joi.boolean(),
     IsEmployed: Joi.boolean(),
     RoomNum : Joi.string().max(30),
-    Center :Joi.string()
+    Center :Joi.string().optional(),
   });
   return schema.validate(req.body);
 }
