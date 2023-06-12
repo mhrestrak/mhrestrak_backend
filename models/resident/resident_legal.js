@@ -30,7 +30,7 @@ function model(data) {
     { key: "OnProbation", value: data.OnProbation, type: "Bit" },
     { key: "ProbationOfficer", value: data.ProbationOfficer, type: "VarChar" },
     { key: "Contact", value: data.Contact, type: "VarChar" },
-    { key: "ProbationCounty", value: data.ParoleCounty, type: "VarChar" },
+    { key: "ProbationCounty", value: data.ProbationCounty, type: "VarChar" },
     {
       key: "CommunityServiceRqd",
       value: data.CommunityServiceRqd,
