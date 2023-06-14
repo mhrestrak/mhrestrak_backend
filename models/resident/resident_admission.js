@@ -125,8 +125,8 @@ function validate(req) {
     DischargeLocation : Joi.string().max(30),
     BlockFromReentry: Joi.boolean(),
     LeftVolunteerly: Joi.boolean(),
-    UnresolvedIssues : Joi.string().max(30),
-    ReadmitConditions : Joi.string().max(30),
+    UnresolvedIssues : Joi.string().max(200),
+    ReadmitConditions : Joi.string().max(200),
     ExitNotes : Joi.string().max(200),
     TimesCompletedTreatment : Joi.string(),
     PreviousInpatientAttempts:  Joi.string()
