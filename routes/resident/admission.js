@@ -62,20 +62,19 @@ router.post(
   }
 );
 
-router.get("/:id",[auth, isIntakeCoordinator],
+router.get("/records/:id",[auth],
   async (req, res) => {
     let resID = req.params.id;
     if (!resID) return res.status(404).send("Please provide a Resident ID!");
 
     try {
-      let resident = await getItemById("ResProfile", "ResID", "NVarChar", resID)
-      if(!resident.found) return res.status(404).send("REsident not found.");
-      console.log(resident)
-      if(!resident.data.RecentAdmissionID) return res.status(404).send("Resident does not have an admission.");
-      console.log(resident.data.RecentAdmissionID)
-      let admission = await getItemById("ResAdmission", "AdmissionID", "VarChar", resident.data.RecentAdmissionID)
-      if(!admission.found) return res.status(404).send("Resident does not have an admission.");
-      res.send(admission.data);
+        const pool = await db();
+        //@ts-ignore
+        const poolRequest = await pool.request();
+        poolRequest.input("ResId", sql.VarChar, resID);
+        let query = `SELECT * from ResAdmission WHERE ResId=@ResId`;
+        let data = await poolRequest.query(query);
+        return res.send(data.recordset);
     } catch (error) {
       console.log(error);
       res.status(400).send("Failed Database connection");
@@ -83,4 +82,27 @@ router.get("/:id",[auth, isIntakeCoordinator],
   }
 );
 
-module.exports = router;
+router.get("/:id",[auth, isIntakeCoordinator],
+async (req, res) => {
+  let resID = req.params.id;
+  if (!resID) return res.status(404).send("Please provide a Resident ID!");
+
+  try {
+    let resident = await getItemById("ResProfile", "ResID", "NVarChar", resID)
+    if(!resident.found) {
+      resident = await getItemById("ResAdmission", "AdmissionID", "VarChar", resID)
+      if(!resident.found) return res.status(404).send("REsident not found.");
+      return res.send(resident.data);
+    }
+    console.log(resident)
+    if(!resident.data.RecentAdmissionID) return res.status(404).send("Resident does not have an admission.");
+    console.log(resident.data.RecentAdmissionID)
+    let admission = await getItemById("ResAdmission", "AdmissionID", "VarChar", resident.data.RecentAdmissionID)
+    if(!admission.found) return res.status(404).send("Resident does not have an admission.");
+    res.send(admission.data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("Failed Database connection");
+  }
+}
+);

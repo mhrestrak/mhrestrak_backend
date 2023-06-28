@@ -47,6 +47,12 @@ function model(data) {
     { key: "WarrantCounty", value: data.WarrantCounty, type: "VarChar" },
     { key: "WarrantState", value: data.WarrantState, type: "VarChar" },
     { key: "ParoleState", value: data.ParoleState, type: "VarChar" },
+    
+    { key: "IsCourtCasesPending", value: data.IsCourtCasesPending, type: "Bit" },
+    { key: "CourtCasesPending", value: data.CourtCasesPending, type: "VarChar" },
+    { key: "CPSActiveCases", value: data.CPSActiveCases, type: "VarChar" },
+    { key: "OnParole", value: data.OnParole, type: "Bit" },
+    { key: "ROIFilledOut", value: data.ROIFilledOut, type: "Bit" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -82,6 +88,12 @@ function validate(req) {
     WarrantCounty: Joi.string().max(50),
     WarrantState: Joi.string().max(50),
     ParoleState: Joi.string().max(50),
+
+    IsCourtCasesPending : Joi.boolean(),
+    CourtCasesPending : Joi.string().max(50),
+    CPSActiveCases : Joi.string().max(50),
+    OnParole : Joi.boolean(),
+    ROIFilledOut : Joi.boolean(),
   });
   return schema.validate(req.body);
 }
