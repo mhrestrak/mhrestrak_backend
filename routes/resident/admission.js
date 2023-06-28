@@ -64,6 +64,26 @@ router.post(
   }
 );
 
+router.get("/records/:id",[auth, level1Access],
+  async (req, res) => {
+    let resID = req.params.id;
+    if (!resID) return res.status(404).send("Please provide a Resident ID!");
+
+    try {
+        const pool = await db();
+        //@ts-ignore
+        const poolRequest = await pool.request();
+        poolRequest.input("ResId", sql.VarChar, resID);
+        let query = `SELECT * from ResAdmission WHERE ResId=@ResId`;
+        let data = await poolRequest.query(query);
+        return res.send(data.recordset);
+    } catch (error) {
+      console.log(error);
+      res.status(400).send("Failed Database connection");
+    }
+  }
+);
+
 router.get("/:id",[auth, level1Access],
   async (req, res) => {
     let resID = req.params.id;
@@ -71,7 +91,11 @@ router.get("/:id",[auth, level1Access],
 
     try {
       let resident = await getItemById("ResProfile", "ResID", "NVarChar", resID)
-      if(!resident.found) return res.status(404).send("REsident not found.");
+      if(!resident.found) {
+        resident = await getItemById("ResAdmission", "AdmissionID", "VarChar", resID)
+        if(!resident.found) return res.status(404).send("REsident not found.");
+        return res.send(resident.data);
+      }
       console.log(resident)
       if(!resident.data.RecentAdmissionID) return res.status(404).send("Resident does not have an admission.");
       console.log(resident.data.RecentAdmissionID)
