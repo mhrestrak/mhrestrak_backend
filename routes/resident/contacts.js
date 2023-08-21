@@ -13,6 +13,7 @@ const router = express.Router();
 
 const sql = require("mssql");
 const db = require("../../startup/database");
+const update = require("../../middleware/databaseActions/update");
 
 router.post(
   "/",
@@ -39,5 +40,13 @@ try {
   res.status(400).send("Failed Database connection");
 }
 });
+
+router.put(
+  "/",
+    [auth, validate(validateReturn), update(model)],
+    async (req, res) => {
+      res.send(req.data);
+    }
+  );
 
 module.exports = router;
