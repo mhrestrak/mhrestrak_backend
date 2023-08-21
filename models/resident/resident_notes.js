@@ -28,7 +28,7 @@ function validate(req) {
     NoteCategoryListID: Joi.string().required().max(30),
     NoteSessionID: Joi.string().max(30),
     NoteDateTime: Joi.date().required(),
-    NoteSubject: Joi.string().max(50),
+    NoteSubject: Joi.string().max(70),
     Note: Joi.string().required(),
     NoteByUID: Joi.string(),
     NoteByName: Joi.string(),

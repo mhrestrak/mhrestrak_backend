@@ -15,6 +15,8 @@ const sql = require("mssql");
 const db = require("../../startup/database");
 const level2Access = require("../../middleware/level2Access");
 const level1Access = require("../../middleware/level1Access");
+const level3Access = require("../../middleware/level3Access");
+const update = require("../../middleware/databaseActions/update");
 
 router.post(
   "/",
@@ -41,5 +43,13 @@ try {
   res.status(400).send("Failed Database connection");
 }
 });
+
+router.put(
+  "/",
+    [auth, level3Access, validate(validateReturn), update(model)],
+    async (req, res) => {
+      res.send(req.data);
+    }
+  );
 
 module.exports = router;
