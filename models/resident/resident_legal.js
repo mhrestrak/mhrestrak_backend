@@ -79,7 +79,7 @@ function validate(req) {
     OnProbation: Joi.boolean(),
     ProbationOfficer : Joi.string(),
     Contact : Joi.string(),
-    ProbationCounty: Joi.string().max(50),
+    ProbationCounty: Joi.string().max(70),
     CommunityServiceRqd: Joi.boolean(),
     RestitutionFinesRqd: Joi.boolean(),
     NeedCourtApproval: Joi.boolean(),
@@ -90,7 +90,7 @@ function validate(req) {
     ParoleState: Joi.string().max(50),
 
     IsCourtCasesPending : Joi.boolean(),
-    CourtCasesPending : Joi.string().max(50),
+    CourtCasesPending : Joi.string().max(70),
     CPSActiveCases : Joi.string().max(50),
     OnParole : Joi.boolean(),
     ROIFilledOut : Joi.boolean(),
