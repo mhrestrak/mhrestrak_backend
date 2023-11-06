@@ -64,35 +64,36 @@ router.post(
   }
 );
 
-router.get("/records/activeresidentswithdevices",[auth, level1Access],
+router.get("/records/activeresidentswithdevices",[auth],
   async (req, res) => {
     let query = `SELECT * from ResProfile WHERE IsActive=1`;
     const pool = await db();
     //@ts-ignore
     let poolRequest = await pool.request();
     let data = await poolRequest.query(query);
-
+    console.log("122", data)
     let residents = data.recordset
-
+    
     if(residents.length === 0) return res.send([]);
     console.log(residents[10])
-
+    
     let admissionString = ""
-
+    
     residents.forEach((res,i) =>{
       admissionString = 
-            res.RecentAdmissionID ? 
-              `${admissionString}${i === 0 ? "" : " OR "}AdmissionID LIKE '%${res.RecentAdmissionID}%'` : 
-              admissionString
-      }
+      res.RecentAdmissionID ? 
+      `${admissionString}${i === 0 ? "" : " OR "}AdmissionID LIKE '%${res.RecentAdmissionID}%'` : 
+      admissionString
+    }
     )
-
+    
     let admissionQuery = `SELECT * from ResAdmission where (${admissionString})`
     //@ts-ignore
     let data1 = await poolRequest.query(admissionQuery);
-
-    let admissions = data1.recordset
+    console.log("133", data1)
     
+    let admissions = data1.recordset
+
     let ResidentWithAdmissionData = []
     
     admissions.forEach((admi) =>{
