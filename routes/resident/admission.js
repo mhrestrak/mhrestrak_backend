@@ -70,7 +70,9 @@ router.get("/records/activeresidentswithdevices",[auth, level1Access],
     const pool = await db();
     //@ts-ignore
     let poolRequest = await pool.request();
-    let {recordset : residents} = await poolRequest.query(query);
+    let data = await poolRequest.query(query);
+
+    let residents = data.recordset
 
     if(residents.length === 0) return res.send([]);
     console.log(residents[10])
@@ -87,7 +89,10 @@ router.get("/records/activeresidentswithdevices",[auth, level1Access],
 
     let admissionQuery = `SELECT * from ResAdmission where (${admissionString})`
     //@ts-ignore
-    let {recordset : admissions} = await poolRequest.query(admissionQuery);
+    let data1 = await poolRequest.query(admissionQuery);
+
+    let admissions = data1.recordset
+    
     let ResidentWithAdmissionData = []
     
     admissions.forEach((admi) =>{
