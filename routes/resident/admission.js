@@ -96,8 +96,8 @@ router.get("/records/activeresidentswithdevices",[auth, level1Access],
         ResID: admi.ResID,
         HasMobile : admi.HasMobile,
         HasTablet : admi.HasTablet,
-        CheckdInMobile : admi.CheckdInMobile, 
-        CheckdInTablet : admi.CheckdInTablet, 
+        CheckedInMobile : admi.CheckedInMobile, 
+        CheckedInTablet : admi.CheckedInTablet, 
       }
       residents.forEach((res) =>{
         if(res.ResID === admi.ResID){
@@ -137,7 +137,7 @@ router.put("/toggleCheckInResidentDevice", [auth], async (req, res) => {
     poolRequest.input("checkin", sql.Bit, req.body.checkIn ? true : false);
     poolRequest.input("AdmissionID", sql.VarChar, req.body.id);
 
-    let string = `update ResAdmission set CheckdIn${req.body.deviceType} = @checkin where AdmissionID = @AdmissionID`;
+    let string = `update ResAdmission set CheckedIn${req.body.deviceType} = @checkin where AdmissionID = @AdmissionID`;
     // let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;
     await poolRequest.query(string);
 
