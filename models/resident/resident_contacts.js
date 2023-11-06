@@ -20,6 +20,7 @@ function model(data) {
       value: data.EmergencyRelationship,
       type: "VarChar",
     },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -40,6 +41,7 @@ function validate(req) {
     ZipCode: Joi.string().max(10),
     ContactNoteID: Joi.string(),
     EmergencyRelationship: Joi.string().max(30),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }

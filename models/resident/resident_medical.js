@@ -32,6 +32,7 @@ function model(data) {
     { key: "MedicalNoteID", value: data.MedicalNoteID, type: "VarChar" },
     { key: "Treatment", value: data.Treatment, type: "VarChar" },
     { key: "Condition", value: data.Condition, type: "VarChar" },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -52,6 +53,7 @@ function validate(req) {
     MedicalNoteID: Joi.string().max(50),
     Treatment: Joi.string().max(50),
     Condition: Joi.string().max(50),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }

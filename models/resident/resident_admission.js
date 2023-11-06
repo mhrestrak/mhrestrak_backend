@@ -90,6 +90,10 @@ function model(data) {
       value: data.PreviousInpatientAttempts,
       type: "VarChar"
     },
+    { key: "HasMobile", value: data.HasMobile, type: "Bit" },
+    { key: "HasTablet", value: data.HasTablet, type: "Bit" },
+    { key: "CheckedInMobile", value: data.CheckedInMobile, type: "Bit" },
+    { key: "CheckedInTablet", value: data.CheckedInTablet, type: "Bit" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -129,7 +133,12 @@ function validate(req) {
     ReadmitConditions : Joi.string().max(200),
     ExitNotes : Joi.string().max(200),
     TimesCompletedTreatment : Joi.string(),
-    PreviousInpatientAttempts:  Joi.string()
+    PreviousInpatientAttempts:  Joi.string(),
+
+    HasMobile : Joi.boolean(),
+    HasTablet : Joi.boolean(),
+    CheckedInMobile : Joi.boolean(),
+    CheckedInTablet : Joi.boolean(),
   });
   return schema.validate(req.body);
 }

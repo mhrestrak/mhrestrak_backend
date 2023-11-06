@@ -7,6 +7,7 @@ function model(data) {
     { key: "DebtName", value: data.DebtName, type: "VarChar" },
     { key: "DebtTypeListId", value: data.DebtTypeListId, type: "VarChar" },
     { key: "DebtAmount", value: data.DebtAmount, type: "Int" },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -17,6 +18,7 @@ function validate(req) {
     DebtName: Joi.string().max(30),
     DebtTypeListId: Joi.string().max(30).required(),
     DebtAmount: Joi.number(),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }

@@ -64,6 +64,104 @@ router.post(
   }
 );
 
+router.get("/records/activeresidentswithdevices",[auth, level1Access],
+  async (req, res) => {
+    let query = `SELECT * from ResProfile WHERE IsActive=1`;
+    const pool = await db();
+    //@ts-ignore
+    let poolRequest = await pool.request();
+    let {recordset : residents} = await poolRequest.query(query);
+
+    if(residents.length === 0) return res.send([]);
+    console.log(residents[10])
+
+    let admissionString = ""
+
+    residents.forEach((res,i) =>{
+      admissionString = 
+            res.RecentAdmissionID ? 
+              `${admissionString}${i === 0 ? "" : " OR "}AdmissionID LIKE '%${res.RecentAdmissionID}%'` : 
+              admissionString
+      }
+    )
+
+    let admissionQuery = `SELECT * from ResAdmission where (${admissionString})`
+    //@ts-ignore
+    let {recordset : admissions} = await poolRequest.query(admissionQuery);
+    let ResidentWithAdmissionData = []
+    
+    admissions.forEach((admi) =>{
+      let data= {
+        AdmissionID : admi.AdmissionID,
+        ResID: admi.ResID,
+        HasMobile : admi.HasMobile,
+        HasTablet : admi.HasTablet,
+        CheckdInMobile : admi.CheckdInMobile, 
+        CheckdInTablet : admi.CheckdInTablet, 
+      }
+      residents.forEach((res) =>{
+        if(res.ResID === admi.ResID){
+          data.ResFirstName = res.ResFirstName
+          data.ResLastName = res.ResLastName
+        }
+      })
+      ResidentWithAdmissionData.push(data)
+    })
+    res.send(ResidentWithAdmissionData.sort((a, b) => (a.ResFirstName.toLowerCase() > b.ResFirstName.toLowerCase() ? 1 : -1)))
+  }
+)
+
+router.put("/addDeviceToAdmission", [auth], async (req, res) => {
+    /// Updating active flag
+    console.log(req.body)
+    // return res.send(req.data)
+    const pool = await db();
+    const poolRequest = await pool.request();
+    poolRequest.input("device", sql.Bit, true);
+    poolRequest.input("AdmissionID", sql.VarChar, req.body.id);
+
+    let string = `update ResAdmission set Has${req.body.deviceType} = @device where AdmissionID = @AdmissionID`;
+    // let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;
+    await poolRequest.query(string);
+
+    res.send(req.data);
+  }
+);
+
+router.put("/toggleCheckInResidentDevice", [auth], async (req, res) => {
+    /// Updating active flag
+    console.log(req.body)
+    // return res.send(req.data)
+    const pool = await db();
+    const poolRequest = await pool.request();
+    poolRequest.input("checkin", sql.Bit, req.body.checkIn ? true : false);
+    poolRequest.input("AdmissionID", sql.VarChar, req.body.id);
+
+    let string = `update ResAdmission set CheckdIn${req.body.deviceType} = @checkin where AdmissionID = @AdmissionID`;
+    // let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;
+    await poolRequest.query(string);
+
+    res.send(req.data);
+  }
+);
+
+router.put("/removeDeviceFromAdmission", [auth], async (req, res) => {
+    /// Updating active flag
+    console.log(req.body)
+    // return res.send(req.data)
+    const pool = await db();
+    const poolRequest = await pool.request();
+    poolRequest.input("device", sql.Bit, false);
+    poolRequest.input("AdmissionID", sql.VarChar, req.body.id);
+
+    let string = `update ResAdmission set Has${req.body.deviceType} = @device where AdmissionID = @AdmissionID`;
+    // let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;
+    await poolRequest.query(string);
+
+    res.send(req.data);
+  }
+);
+
 router.get("/records/:id",[auth, level1Access],
   async (req, res) => {
     let resID = req.params.id;

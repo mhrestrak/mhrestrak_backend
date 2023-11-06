@@ -13,6 +13,7 @@ function model(data) {
       value: data.PrimaryDrugOfChoice,
       type: "Bit",
     },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" },
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -26,6 +27,7 @@ function validate(req) {
     MethodOfUse: Joi.string().max(30),
     UseComment: Joi.string().max(50),
     PrimaryDrugOfChoice: Joi.boolean(),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }

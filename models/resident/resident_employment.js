@@ -15,6 +15,7 @@ function model(data) {
     },
     { key: "WorkHours", value: data.WorkHours, type: "Int" },
     { key: "EmploymentNoteID", value: data.EmploymentNoteID, type: "VarChar" },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -30,6 +31,7 @@ function validate(req) {
     EmployerContactID: Joi.string(),
     WorkHours: Joi.number(),
     EmploymentNoteID: Joi.string(),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }

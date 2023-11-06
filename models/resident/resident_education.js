@@ -5,6 +5,7 @@ function model(data) {
     { key: "ID", value: data.ID, type: "VarChar" },
     { key: "ResID", value: data.ResID, type: "VarChar" },
     { key: "EducationLevel", value: data.EducationLevel, type: "VarChar" },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -14,6 +15,7 @@ function validate(req) {
     ID: Joi.string(),
     ResID: Joi.string().required(),
     EducationLevel: Joi.string().required().max(30),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }

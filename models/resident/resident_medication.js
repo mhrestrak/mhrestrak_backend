@@ -25,6 +25,7 @@ function model(data) {
       value: data.MedicationName,
       type: "VarChar",
     },
+    { key: "AdmissionID", value: data.AdmissionID, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
 }
@@ -42,6 +43,7 @@ function validate(req) {
     Dosage: Joi.string().max(50),
     MedicationNoteID: Joi.string().max(50),
     MedicationName: Joi.string().required().max(30),
+    AdmissionID : Joi.string()
   });
   return schema.validate(req.body);
 }
