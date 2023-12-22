@@ -122,7 +122,8 @@ function validate(req) {
     CaseWorkerName: Joi.string().max(30),
     IntakeCoordinatorName: Joi.string().max(30),
     
-    WhoReferred : Joi.string().max(30).optional().allow(""),
+    WhoReferred : Joi.string().max(50).optional().allow(""),
+    WhoReferredRelationship : Joi.string().max(50).optional().allow(""),
     ReasonForLeaving : Joi.string().max(30),
     DateOut: Joi.date().allow(null),
     PossessionsRemovedDate: Joi.date().allow(null),

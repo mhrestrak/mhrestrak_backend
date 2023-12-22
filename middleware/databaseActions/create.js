@@ -14,6 +14,7 @@ let tables = [
   { name: "ResLegalCases", path: "legal" },
   { name: "ResMedicalInfo", path: "medical" },
   { name: "ResMedicationInfo", path: "medication" },
+  { name: "ResAllergies", path: "allergies" },
   { name: "ResAdmission", path: "admission" },
 ];
 

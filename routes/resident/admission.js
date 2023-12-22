@@ -64,6 +64,25 @@ router.post(
   }
 );
 
+router.put(
+  "/updateResidentDisciplinaryPoints",
+  [auth],
+  async (req, res) => {
+    const pool = await db();
+    const poolRequest = await pool.request();
+
+    poolRequest.input("DisciplinaryPoints", sql.VarChar, JSON.stringify(req.body.DisciplinaryPoints));
+    poolRequest.input("AdmissionID", sql.VarChar, req.body.AdmissionID);
+
+    let string = `update ResAdmission set DisciplinaryPoints = @DisciplinaryPoints where AdmissionID = @AdmissionID`;
+    // let string = `update ResProfile set isActive = @isActive, LastEntryDate = @LastEntryDate, RoomNum = @RoomNum where ResID = @ResID`;
+    await poolRequest.query(string);
+    let admission = await getItemById("ResAdmission", "AdmissionID", "VarChar", req.body.AdmissionID)
+    res.send(admission);
+  }
+);
+
+
 router.get("/records/activeresidentswithdevices",[auth],
   async (req, res) => {
     let query = `SELECT * from ResProfile WHERE IsActive=1`;
