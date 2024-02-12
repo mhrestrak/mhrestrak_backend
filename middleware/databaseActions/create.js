@@ -1,6 +1,7 @@
 const db = require("../../startup/database");
 const sql = require("mssql");
 const uniqid = require("uniqid");
+const { getRightTime } = require("../../services/dateHelpers");
 
 let tables = [
   { name: "ResProfile", path: "basic" },
@@ -54,6 +55,7 @@ module.exports = (model) => {
         } else {
           string = string + "," + Item.key;
         }
+        if(Item.type === "Date") Item.value = getRightTime(Item.value)
         poolRequest.input(Item.key, sql[Item.type], Item.value);
       });
       string = string + ") values (";
@@ -78,3 +80,4 @@ module.exports = (model) => {
     }
   };
 };
+

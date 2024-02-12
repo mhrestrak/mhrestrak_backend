@@ -1,3 +1,4 @@
+const { getRightTime } = require("../../services/dateHelpers");
 const db = require("../../startup/database");
 const sql = require("mssql");
 
@@ -46,6 +47,7 @@ module.exports = (model) => {
         } else {
           string = string + "," + Item.key+"=@"+Item.key;
         }
+        if(Item.type === "Date") Item.value = getRightTime(Item.value)
         poolRequest.input(Item.key, sql[Item.type], Item.value);
       });
       poolRequest.input("identifier", sql.VarChar, body[tableName.id]);

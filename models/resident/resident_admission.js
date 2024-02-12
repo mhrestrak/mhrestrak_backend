@@ -136,6 +136,7 @@ function validate(req) {
     TimesCompletedTreatment : Joi.string(),
     PreviousInpatientAttempts:  Joi.string(),
 
+    DisciplinaryPoints : Joi.string().optional().allow(""),
     HasMobile : Joi.boolean(),
     HasTablet : Joi.boolean(),
     CheckedInMobile : Joi.boolean(),
