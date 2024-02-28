@@ -36,6 +36,7 @@ router.use("/medication", medication);
 router.use("/allergies", allergies);
 router.use("/notes", notes);
 
+
 router.get("/", [auth, level1Access], async (req, res) => {
   let { query, active } = req.query;
   console.log(query, active);
@@ -44,13 +45,24 @@ router.get("/", [auth, level1Access], async (req, res) => {
     //@ts-ignore
     const poolRequest = await pool.request();
 
+    const  formatString = (input) => {
+      if (input.length <= 3) {
+          return input;
+      } else if (input.length <= 5) {
+          return input.slice(0, 3) + '-' + input.slice(3);
+      } else {
+          return input.slice(0, 3) + '-' + input.slice(3, 5) + '-' + input.slice(5, 9);
+      }
+    }
+
     if (query) {
       poolRequest.input("query", sql.VarChar, query);
+      poolRequest.input("formatedQuery", sql.VarChar, formatString(query));
     }
 
     let string = `SELECT * from ResProfile ${
       query
-        ? "where (ssn = @query or ResFirstName like @query or ResLastName like @query)"
+        ? "where (ssn = @query or ssn like @formatedQuery or ResFirstName like @query or ResLastName like @query)"
         : ""
     }`;
     switch (active) {
