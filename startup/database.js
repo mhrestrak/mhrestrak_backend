@@ -6,6 +6,7 @@ var DbConfig = {
   user: config.get("dbUser"),
   password: config.get("dbPassword"),
   database: config.get("db"),
+  options : {useUTC : false}
 };
 
 module.exports = async function () {
