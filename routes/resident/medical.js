@@ -28,13 +28,13 @@ router.post(
 
 router.put(
   "/",
-    [auth, level3Access, validate(validateReturn), update(model)],
+    [auth, level2Access, validate(validateReturn), update(model)],
     async (req, res) => {
       res.send(req.data);
     }
   );
 
-  router.delete("/:id",[auth, level3Access, _delete()],async (req, res) => {
+  router.delete("/:id",[auth, level2Access, _delete()],async (req, res) => {
     res.send(req.data);
 });
 

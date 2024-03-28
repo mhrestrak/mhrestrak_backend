@@ -13,6 +13,7 @@ const getItemById = require("../../utils/db_get")
 
 const db = require("../../startup/database");
 const sql = require("mssql");
+const level2Access = require("../../middleware/level2Access");
 const level3Access = require("../../middleware/level3Access");
 const level1Access = require("../../middleware/level1Access");
 
@@ -66,7 +67,7 @@ router.post(
 
 router.put(
   "/updateResidentDisciplinaryPoints",
-  [auth],
+  [auth, level1Access],
   async (req, res) => {
     const pool = await db();
     const poolRequest = await pool.request();
@@ -83,7 +84,7 @@ router.put(
 );
 
 
-router.get("/records/activeresidentswithdevices",[auth],
+router.get("/records/activeresidentswithdevices",[auth, level1Access],
   async (req, res) => {
     let query = `SELECT * from ResProfile WHERE IsActive=1`;
     const pool = await db();
@@ -136,7 +137,7 @@ router.get("/records/activeresidentswithdevices",[auth],
   }
 )
 
-router.put("/addDeviceToAdmission", [auth], async (req, res) => {
+router.put("/addDeviceToAdmission", [auth, level1Access], async (req, res) => {
     /// Updating active flag
     console.log(req.body)
     // return res.send(req.data)
@@ -153,7 +154,7 @@ router.put("/addDeviceToAdmission", [auth], async (req, res) => {
   }
 );
 
-router.put("/toggleCheckInResidentDevice", [auth], async (req, res) => {
+router.put("/toggleCheckInResidentDevice", [auth, level1Access], async (req, res) => {
     /// Updating active flag
     console.log(req.body)
     // return res.send(req.data)
@@ -170,7 +171,7 @@ router.put("/toggleCheckInResidentDevice", [auth], async (req, res) => {
   }
 );
 
-router.put("/removeDeviceFromAdmission", [auth], async (req, res) => {
+router.put("/removeDeviceFromAdmission", [auth, level1Access], async (req, res) => {
     /// Updating active flag
     console.log(req.body)
     // return res.send(req.data)

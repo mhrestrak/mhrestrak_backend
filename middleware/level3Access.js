@@ -1,6 +1,6 @@
 module.exports = function (req, res, next) {
     if (
-      !(req.user.isCaseCoordinator ||
+      !(req.user.isIntakeCoordinator ||
       req.user.isCenterCoordinator ||
       req.user.isAdmin)
     ) {

@@ -22,7 +22,7 @@ const level3Access = require("../../middleware/level3Access");
 
 router.post(
   "/",
-  [auth, level2Access, validate(validateReturn), create(model)],
+  [auth, level3Access, validate(validateReturn), create(model)],
   (req, res) => {
     res.send(req.data);
   }
@@ -37,7 +37,7 @@ router.get("/active", [auth, level1Access], async (req, res) => {
   return res.send(data);
 });
 
-router.post("/DL_Report", [auth, level4Access], async (req, res) => {
+router.post("/DL_Report", [auth, level2Access], async (req, res) => {
   console.log("dfdfdfdf")
   let body = req.body;
   const startDate = body.startDate
@@ -91,7 +91,7 @@ router.post("/DL_Report", [auth, level4Access], async (req, res) => {
 
 router.post(
   "/update",
-  [auth, level3Access, validate(validateUpdate)],
+  [auth, level2Access, validate(validateUpdate)],
   async (req, res) => {
     let body = req.body;
     const pool = await db();
@@ -193,7 +193,7 @@ router.post(
   }
 );
 
-router.post("/phaseUpdate", [auth, level3Access], async (req, res) => {
+router.post("/phaseUpdate", [auth, level2Access], async (req, res) => {
     let body = req.body;
     const ResID = body.ResID
     const phaseData = body.phaseData

@@ -28,7 +28,7 @@ router.post(
 
 router.put(
   "/",
-  [auth, level3Access,validate(validateReturn), update(model)],
+  [auth, level2Access,validate(validateReturn), update(model)],
   async (req, res) => {
     res.send(req.data);
   }
