@@ -13,7 +13,7 @@ const centers = require("../routes/centers");
 module.exports = function (app) {
   //----------------------Setting route handlers--------------------------
   app.use(express.json());
-  app.use(cors());
+  app.use(cors({origin: 'https://restrak.metrohope.org'}));
   app.use("/api/users", users);
   app.use("/api/auth", auth);
   app.use("/api/test", test);
