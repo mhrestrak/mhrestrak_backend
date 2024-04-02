@@ -11,6 +11,5 @@
   "TWILIO_AUTH_TOKEN" : "mhrestrak_TWILIO_AUTH_TOKEN",
   "Twillio_Email_Verification" : "mhrestrak_Email_verification_serviceId",
   "invitationTemplateId": "mhrestrak_templateId",
-  "frontendUrl" : "mhrestrak_frontendUrl",
-  "FIXIE_URL" :"FIXIE_URL"
+  "frontendUrl" : "mhrestrak_frontendUrl"
 }
