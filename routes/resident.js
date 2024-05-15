@@ -19,6 +19,7 @@ const medication = require("./resident/medication");
 const allergies = require("./resident/allergies");
 const notes = require("./resident/notes");
 const level1Access = require("../middleware/level1Access");
+const { getDaysBetweenDates } = require("../services/dateHelpers");
 
 const router = express.Router();
 
@@ -38,8 +39,10 @@ router.use("/notes", notes);
 
 
 router.get("/", [auth, level1Access], async (req, res) => {
-  let { query, active } = req.query;
-  console.log(query, active);
+  let { query, active, sort, page } = req.query;
+  let pageSize = 20;
+  console.log(query, active, sort);
+
   try {
     const pool = await db();
     //@ts-ignore
@@ -60,9 +63,11 @@ router.get("/", [auth, level1Access], async (req, res) => {
       poolRequest.input("formatedQuery", sql.VarChar, formatString(query));
     }
 
-    let string = `SELECT * from ResProfile ${
+    
+
+    let string = `SELECT * from ResProfile${
       query
-        ? "where (ssn = @query or ssn like @formatedQuery or ResFirstName like @query or ResLastName like @query)"
+        ? " where (ssn = @query or ssn like @formatedQuery or ResFirstName like @query or ResLastName like @query)"
         : ""
     }`;
     switch (active) {
@@ -77,16 +82,42 @@ router.get("/", [auth, level1Access], async (req, res) => {
         string = `${string} IsActive=@active`;
         break;
     }
+
+    // ================================= Sort =========
+    switch (sort) {
+      case "2": // A-Z FirstName
+        string = string + ` ORDER BY ResFirstName ASC`;
+        break;
+        case "3": // Z-A FirstName
+        string = string + ` ORDER BY ResFirstName DESC`;
+        break;
+        case "4": // A-Z LastName
+        string = string + ` ORDER BY ResLastName ASC`;
+        break;
+        case "5": // Z-A LastName
+        string = string + ` ORDER BY ResLastName DESC`;
+        break;
+        default:
+          string = string + ` ORDER BY ResFirstName ASC`;
+          break;
+    }
+
+    string = string + ` OFFSET ${pageSize*((page ? page : 1)-1)} ROWS`
+    string = string + ` FETCH NEXT ${pageSize} ROWS ONLY`
+
     console.log(string);
     const data = await poolRequest.query(string);
-    console.log(data);
     let admissions = await getAdmissions();
     data.recordset.forEach((resident, index) =>{
       let count = 0
       admissions.forEach((add) =>{
-          if(add.ResID === resident.ResID) count = count+1
+          // if(add.ResID === resident.ResID) count = count+1
+          if(add.ResID === resident.ResID){
+              let days = getDaysBetweenDates(add.ProgramInDate? add.ProgramInDate : add.GuestInDate, add.DateOut ? add.DateOut : new Date())
+              count = count +days
+          }
       })
-      data.recordset[index].admissions = count
+      data.recordset[index].daysInProgram = count
     })
 
     if (!req.user.isAdmin) {

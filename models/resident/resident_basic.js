@@ -46,6 +46,7 @@ function model(data) {
     { key: "OnSSISSD", value: data.OnSSISSD, type: "Bit" },
     { key: "IsEmployed", value: data.IsEmployed, type: "Bit" },
     { key: "RoomNum", value: data.RoomNum, type: "VarChar" },
+    { key: "Legacy", value: data.Legacy, type: "Bit" },
     { key: "Center", value: data.Center, type: "VarChar" }
   ];
   return array.filter((Item) => Item.value !== undefined);
@@ -89,6 +90,7 @@ function validate(req) {
     IsEmployed: Joi.boolean(),
     RoomNum : Joi.string().max(30),
     Center :Joi.string().optional(),
+    Legacy: Joi.boolean(),
   });
   return schema.validate(req.body);
 }

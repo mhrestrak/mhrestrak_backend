@@ -13,6 +13,20 @@ function getRightTime(date) {
     // console.log(date.toISOString())
 }
 
+function getDaysBetweenDates(startDate, endDate) {
+  let dates = [];
+  //to avoid modifying the original date
+  endDate = new Date(endDate)
+  const theDate = new Date(startDate);
+  while (theDate < endDate) {
+      dates = [...dates, new Date(theDate)];
+      theDate.setDate(theDate.getDate() + 1);
+  }
+  dates = [...dates, endDate];
+  return dates.length
+}
+
 module.exports = {
-  getRightTime,
+  getDaysBetweenDates,
+  getRightTime
 };
