@@ -110,14 +110,17 @@ router.get("/", [auth, level1Access], async (req, res) => {
     let admissions = await getAdmissions();
     data.recordset.forEach((resident, index) =>{
       let count = 0
+      let admissionCount = 0
       admissions.forEach((add) =>{
           // if(add.ResID === resident.ResID) count = count+1
           if(add.ResID === resident.ResID){
               let days = getDaysBetweenDates(add.ProgramInDate? add.ProgramInDate : add.GuestInDate, add.DateOut ? add.DateOut : new Date())
               count = count +days
+              admissionCount = admissionCount + 1
           }
       })
       data.recordset[index].daysInProgram = count
+      data.recordset[index].admissionCount = admissionCount
     })
 
     if (!req.user.isAdmin) {
@@ -153,7 +156,7 @@ router.get("/:id", [auth, level1Access], async (req, res) => {
 
     if (resident.ResPictureKey) {
       if (resident.ResPictureKey.startsWith("ImgKey_")) {
-        resident.ResPictureKey = generateObjectUrl(resident.ResPictureKey);
+        resident.ResPictureUrl = generateObjectUrl(resident.ResPictureKey);
       }
     }
     res.send(data.recordset[0]);

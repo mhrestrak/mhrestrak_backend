@@ -14,7 +14,7 @@ const isIntakeCoordinator = require("../../middleware/isIntakeCoordinator");
 const create = require("../../middleware/databaseActions/create");
 const { date } = require("joi");
 const getItemById = require("../../utils/db_get");
-const { generateObjectUrl } = require("../../services/aws");
+const { generateObjectUrl, deleteAwsObject } = require("../../services/aws");
 const level2Access = require("../../middleware/level2Access");
 const level1Access = require("../../middleware/level1Access");
 const level4Access = require("../../middleware/level4Access");
@@ -38,11 +38,9 @@ router.get("/active", [auth, level1Access], async (req, res) => {
 });
 
 router.post("/DL_Report", [auth, level2Access], async (req, res) => {
-  console.log("dfdfdfdf")
   let body = req.body;
   const startDate = body.startDate
   const endDate = body.EndDate
-  console.log(body)
 
   const pool = await db();
   //@ts-ignore
@@ -51,7 +49,6 @@ router.post("/DL_Report", [auth, level2Access], async (req, res) => {
   poolRequest.input("endDate", sql.DateTime, endDate)
   let query = `SELECT * from ResAdmission WHERE DateOut >= @startDate and DateOut <= @endDate`;
   let data = await poolRequest.query(query);
-  console.log(data)
   
   if(data.recordset?.length > 0){
 
@@ -63,7 +60,6 @@ router.post("/DL_Report", [auth, level2Access], async (req, res) => {
 
     let string = `SELECT * from Lists where ListNameID = @ListNameID`;
     const {recordset : list} = await poolRequestList.query(string);
-    console.log(list)
     list.forEach((w,i) =>{
       list[i].count = 0
     })
@@ -103,7 +99,6 @@ router.post(
       //   RoomNum: body["RoomNum"],
       //   RecentPhase: body["RecentPhase"],
       // });
-      console.log(updatedModel)
       let tableName = "ResProfile";
 
       let query = `UPDATE ${tableName} SET `;
@@ -131,7 +126,6 @@ router.post(
       // }
 
       query = query + ` WHERE ResID='${body["ResID"]}'`;
-      console.log(query)
       data = await poolRequest.query(query);
       //@ts-ignore
       // pool.close();
@@ -181,7 +175,7 @@ router.post(
       const resident = data1.recordset[0]
       if(resident?.ResPictureKey){
         if(resident.ResPictureKey.startsWith("ImgKey_")){
-          resident.ResPictureKey = generateObjectUrl(resident.ResPictureKey)
+          resident.ResPictureUrl = generateObjectUrl(resident.ResPictureKey)
         }
       }
 
@@ -193,29 +187,59 @@ router.post(
   }
 );
 
+router.put("/imageUpdate", [auth], async (req, res) => {
+    let body = req.body;
+    const ResID = body.ResID
+    const imageKey = body.key
+
+    try {
+        let resident = await getItemById("ResProfile", "ResID", "NVarChar", ResID)
+        if(!resident.found) return res.status(404).send("Resident not found.");
+        
+        //delete previous photo
+        if(resident.data.ResPictureKey){
+            if (resident.data.ResPictureKey.startsWith("ImgKey_")) {
+              await deleteAwsObject(resident.data.ResPictureKey)
+            }
+          }
+
+        //UpdateProfile
+        let string = `UPDATE ResProfile SET `;
+        const Residentpool = await db();
+        //@ts-ignore
+        let ResidentpoolRequest = await Residentpool.request();
+        string = string + "ResPictureKey=@ResPictureKey";
+        ResidentpoolRequest.input("ResPictureKey", sql.VarChar, imageKey);
+        ResidentpoolRequest.input("ResID", sql.VarChar, ResID);
+        string = string + ` where  ResID=@ResID`;
+        await ResidentpoolRequest.query(string);
+        resident.data.ResPictureKey = imageKey
+        resident.data.ResPictureUrl = generateObjectUrl(imageKey);
+        res.send(resident.data);
+      } catch (error) {
+        console.log(error)
+        return res.status(400).send("Filed to update User Image");
+    }
+
+})
+
 router.post("/phaseUpdate", [auth, level2Access], async (req, res) => {
     let body = req.body;
     const ResID = body.ResID
     const phaseData = body.phaseData
-    console.log(body)
 
     // const pool = await db();
     let data
     try {
-      console.log(96)
       let resident = await getItemById("ResProfile", "ResID", "NVarChar", ResID)
-      console.log(97)
       if(!resident.found) return res.status(404).send("Resident not found.");
-      console.log(98)
+
       if(!resident.data.RecentAdmissionID) return res.status(404).send("Resident does not have an admission.");
-      console.log(99)
       let admission = await getItemById("ResAdmission", "AdmissionID", "VarChar", resident.data.RecentAdmissionID)
-      console.log(100)
       if(!admission.found) return res.status(404).send("Resident does not have an admission.");
 
       //UpdateProfile
       let string = `UPDATE ResProfile SET `;
-      console.log(101)
       const Residentpool = await db();
       //@ts-ignore
       let ResidentpoolRequest = await Residentpool.request();
@@ -223,7 +247,6 @@ router.post("/phaseUpdate", [auth, level2Access], async (req, res) => {
       ResidentpoolRequest.input("RecentPhase", sql.VarChar, phaseData[phaseData.length-1].phase);
       ResidentpoolRequest.input("ResID", sql.VarChar, ResID);
       string = string + ` where  ResID=@ResID`;
-      console.log(string);
       let UpdatedResident = await ResidentpoolRequest.query(string);
 
       //UpdateProfile
@@ -237,6 +260,10 @@ router.post("/phaseUpdate", [auth, level2Access], async (req, res) => {
       Adstring = Adstring + ", PhaseData=@PhaseData";
       AdpoolRequest.input("PhaseData", sql.VarChar, JSON.stringify(phaseData));
       AdpoolRequest.input("AdmissionID", sql.VarChar, resident.data.RecentAdmissionID);
+      if(!admission.ProgramInDate && phaseData[phaseData.length-1].phase === "1"){
+        Adstring = Adstring + ", ProgramInDate=@ProgramInDate";
+        AdpoolRequest.input("ProgramInDate", sql.Date, phaseData[phaseData.length-1].inDate);
+      }
       Adstring = Adstring + ` where  AdmissionID=@AdmissionID`;
       console.log(Adstring);
       let AdResident = await AdpoolRequest.query(Adstring);
